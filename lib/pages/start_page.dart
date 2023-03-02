@@ -2,7 +2,10 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pry_mascotas/pages/login_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/widgets/green_button_widget.dart';
+import 'package:pry_mascotas/widgets/white_button_widget.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -41,7 +44,7 @@ class StartPage extends StatelessWidget {
                         "Misión \nPatitas",
                         style: TextStyle(
                           color: cWhiteColor,
-                          fontSize: 30.0,
+                          fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -81,46 +84,24 @@ class StartPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: cHeight * 0.05,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text(
-                                "INICIAR SESION",
-                                style: TextStyle(
-                                  color: cGreyColor,
-                                  fontWeight: FontWeight.bold,
+                          GreenButtonWiget(
+                            label: "INICIAR SESIÓN",
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LoginPage(),
                                 ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: cGreenColor,
-                              ),
-                            ),
+                              );
+                            },
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: cHeight * 0.05,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text(
-                                "REGISTRATE",
-                                style: TextStyle(
-                                  color: cBlueColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: cWhiteColor,
-                                side: BorderSide(
-                                  color: cBlueColor,
-                                  width: 2.0,
-                                ),
-                              ),
-                            ),
+                          WhiteButtonWidget(
+                            label: "REGISTRATE",
+                            onPressed: () {},
                           ),
                         ],
                       ),
