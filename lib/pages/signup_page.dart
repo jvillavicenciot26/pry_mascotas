@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/home_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/widgets/green_button_widget.dart';
-import 'package:pry_mascotas/widgets/white_button_widget.dart';
 
-class LoginPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double cWidth = MediaQuery.of(context).size.width;
@@ -48,7 +45,7 @@ class LoginPage extends StatelessWidget {
             ),
             Container(
               width: double.infinity,
-              height: cHeight * 0.40,
+              height: cHeight * 0.52,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.0),
                 color: cWhiteColor.withOpacity(0.6),
@@ -62,6 +59,58 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        TextField(
+                          cursorColor: cBlueColor,
+                          decoration: InputDecoration(
+                            hintText: "Nombres",
+                            prefixIcon: Icon(Icons.person),
+                            filled: true,
+                            fillColor: cWhiteColor,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                              borderSide: BorderSide(
+                                color: cGreyColor,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                              borderSide: BorderSide(
+                                color: cGreyColor,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        TextField(
+                          cursorColor: cBlueColor,
+                          decoration: InputDecoration(
+                            hintText: "Apellidos",
+                            prefixIcon: Icon(Icons.person),
+                            filled: true,
+                            fillColor: cWhiteColor,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                              borderSide: BorderSide(
+                                color: cGreyColor,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                              borderSide: BorderSide(
+                                color: cGreyColor,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         TextField(
                           cursorColor: cBlueColor,
                           decoration: InputDecoration(
@@ -115,7 +164,7 @@ class LoginPage extends StatelessWidget {
                           height: 10.0,
                         ),
                         GreenButtonWiget(
-                          label: "INICIAR SESIÓN",
+                          label: "CREAR CUENTA",
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -190,14 +239,14 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: cHeight * 0.35,
+                    bottom: cHeight * 0.468,
                     child: Container(
                       width: cWidth * 0.92,
-                      height: cHeight * 0.35,
+                      height: cHeight * 0.30,
                       decoration: BoxDecoration(
                         //color: Colors.amber,
                         image: DecorationImage(
-                          image: AssetImage("assets/images/img_login.png"),
+                          image: AssetImage("assets/images/img_signup.png"),
                           fit: BoxFit.fill,
                         ),
                       ),

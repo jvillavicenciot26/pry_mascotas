@@ -14,7 +14,7 @@ class WhiteButtonWidget extends StatelessWidget {
       width: double.infinity,
       height: cHeight * 0.05,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           label,
           style: TextStyle(

@@ -1,8 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/login_page.dart';
+import 'package:pry_mascotas/pages/signup_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/widgets/green_button_widget.dart';
 import 'package:pry_mascotas/widgets/white_button_widget.dart';
@@ -101,7 +101,15 @@ class StartPage extends StatelessWidget {
                           ),
                           WhiteButtonWidget(
                             label: "REGISTRATE",
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      SignUpPage(),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
