@@ -8,25 +8,24 @@ class WhiteButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: double.infinity,
       height: cHeight * 0.05,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: cBlueColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: cWhiteColor,
-          side: BorderSide(
+          side: const BorderSide(
             color: cBlueColor,
             width: 2.0,
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: cBlueColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

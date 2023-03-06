@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/home_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/widgets/green_button_widget.dart';
-import 'package:pry_mascotas/widgets/white_button_widget.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -28,7 +25,7 @@ class LoginPage extends StatelessWidget {
                 Container(
                   width: cWidth * 0.2,
                   height: cWidth * 0.2,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
                         "assets/images/logo.png",
@@ -36,7 +33,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
+                const Text(
                   "Misión \nPatitas",
                   style: TextStyle(
                     color: cWhiteColor,
@@ -66,52 +63,52 @@ class LoginPage extends StatelessWidget {
                           cursorColor: cBlueColor,
                           decoration: InputDecoration(
                             hintText: "Usuario",
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                             filled: true,
                             fillColor: cWhiteColor,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(26.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: cGreyColor,
                                 width: 2.0,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(26.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: cGreyColor,
                                 width: 2.0,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         TextField(
                           cursorColor: cBlueColor,
                           decoration: InputDecoration(
                             hintText: "Clave",
-                            prefixIcon: Icon(Icons.key),
+                            prefixIcon: const Icon(Icons.key),
                             filled: true,
                             fillColor: cWhiteColor,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(26.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: cGreyColor,
                                 width: 2.0,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(26.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: cGreyColor,
                                 width: 2.0,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         GreenButtonWiget(
@@ -125,11 +122,11 @@ class LoginPage extends StatelessWidget {
                             );
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Row(
-                          children: [
+                          children: const [
                             Expanded(
                               child: Divider(
                                 color: cGreyColor,
@@ -156,7 +153,7 @@ class LoginPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Row(
@@ -165,7 +162,7 @@ class LoginPage extends StatelessWidget {
                             Container(
                               width: cWidth * 0.15,
                               height: cWidth * 0.15,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
                                     "assets/images/facebook.png",
@@ -176,7 +173,7 @@ class LoginPage extends StatelessWidget {
                             Container(
                               width: cWidth * 0.15,
                               height: cWidth * 0.15,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
                                     "assets/images/google.png",
@@ -194,7 +191,7 @@ class LoginPage extends StatelessWidget {
                     child: Container(
                       width: cWidth * 0.92,
                       height: cHeight * 0.35,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         //color: Colors.amber,
                         image: DecorationImage(
                           image: AssetImage("assets/images/img_login.png"),

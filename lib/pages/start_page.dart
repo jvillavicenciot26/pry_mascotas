@@ -32,7 +32,7 @@ class StartPage extends StatelessWidget {
                       Container(
                         width: cWidth * 0.2,
                         height: cWidth * 0.2,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
                               "assets/images/logo.png",
@@ -40,7 +40,7 @@ class StartPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Misión \nPatitas",
                         style: TextStyle(
                           color: cWhiteColor,
@@ -57,7 +57,7 @@ class StartPage extends StatelessWidget {
                       child: Container(
                         width: cWidth * 0.35,
                         height: cHeight * 0.25,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/huellas.png"),
                             fit: BoxFit.fill,
@@ -96,7 +96,7 @@ class StartPage extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10.0,
                           ),
                           WhiteButtonWidget(
@@ -119,7 +119,7 @@ class StartPage extends StatelessWidget {
                       child: Container(
                         width: cWidth * 0.92,
                         height: cHeight * 0.35,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           //color: Colors.amber,
                           image: DecorationImage(
                             image: AssetImage("assets/images/img_start.png"),

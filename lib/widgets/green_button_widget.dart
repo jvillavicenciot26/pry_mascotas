@@ -8,7 +8,6 @@ class GreenButtonWiget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
@@ -16,15 +15,15 @@ class GreenButtonWiget extends StatelessWidget {
       height: cHeight * 0.05,
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: cGreenColor,
+        ),
         child: Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: cGreyColor,
             fontWeight: FontWeight.bold,
           ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: cGreenColor,
         ),
       ),
     );
