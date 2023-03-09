@@ -4,6 +4,8 @@
         android:label="pry_mascotas"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyC3ONizHnw73J6T-7H_xqrBZyNsI855tKg"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

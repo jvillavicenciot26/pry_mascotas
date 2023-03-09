@@ -18,7 +18,7 @@ class ItemLostHomeWidget extends StatelessWidget {
     double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      margin: const EdgeInsets.only(right: 15.0, bottom: 10.0),
       width: cWidth * 0.32,
       decoration: BoxDecoration(
         color: cWhiteColor,

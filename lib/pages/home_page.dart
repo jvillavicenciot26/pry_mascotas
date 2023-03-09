@@ -1,86 +1,131 @@
-import 'package:flutter/material.dart';
-import 'package:pry_mascotas/ui/general/colors.dart';
-import 'package:pry_mascotas/utils/constants.dart';
-import 'package:pry_mascotas/widgets/item_adoption_home_widget.dart';
-import 'package:pry_mascotas/widgets/item_lost_home_widget.dart';
-import 'package:pry_mascotas/widgets/row_options_home_widget.dart';
+import 'dart:ui';
 
-class HomePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:pry_mascotas/pages/events_page.dart';
+import 'package:pry_mascotas/pages/map_page.dart';
+import 'package:pry_mascotas/pages/pets_page.dart';
+import 'package:pry_mascotas/ui/general/colors.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedPage = 0;
+  List<Widget> _pageOption = [
+    PetsPage(),
+    EventsPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: cWhiteColor,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: cBlueColor,
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: cWhiteColor,
+          size: cHeight * 0.05,
+        ),
+      ),
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: [
+          BottomNavigationBar(
+            backgroundColor: cBlueColor,
+            selectedItemColor: cWhiteColor,
+            unselectedItemColor: cWhiteColor.withOpacity(0.7),
+            showUnselectedLabels: false,
+            currentIndex: _selectedPage,
+            onTap: (int value) {
+              _selectedPage = value;
+              setState(() {});
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.pets,
+                ),
+                label: "Mascotas",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.event_available,
+                ),
+                label: "Eventos",
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: cHeight * 0.025,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapPage(),
+                    ));
+              },
+              child: Container(
+                height: cHeight * 0.08,
+                width: cHeight * 0.08,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/images/ic_maps.png",
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       appBar: AppBar(
         backgroundColor: cBlueColor,
         elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RowOptionsHomeWidget(
-              section: "Perdidas",
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              child: Row(
-                children: [
-                  ItemLostHomeWidget(name: "Lucky", age: 2.0, days: 4),
-                  ItemLostHomeWidget(name: "Tobby", age: 3.0, days: 20),
-                  ItemLostHomeWidget(name: "Rocky", age: 5.0, days: 8),
-                  ItemLostHomeWidget(name: "Gringo", age: 1.0, days: 15),
-                  ItemLostHomeWidget(name: "Spike", age: 6.0, days: 12),
-                  ItemLostHomeWidget(name: "Nacho", age: 8.0, days: 7),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            RowOptionsHomeWidget(
-              section: "En Adopción",
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              child: Row(
-                children: [
-                  ItemAdoptionHomeWidget(
-                    name: "Oswaldo",
-                    age: 3.0,
-                    description:
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-                  ),
-                  ItemAdoptionHomeWidget(
-                    name: "Reynaldo",
-                    age: 5.0,
-                    description:
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-                  ),
-                  ItemAdoptionHomeWidget(
-                    name: "Roger",
-                    age: 4.0,
-                    description:
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-                  ),
-                ],
-              ),
-            ),
-          ],
+        leading: Icon(
+          Icons.person,
         ),
+        centerTitle: true,
+        title: TextField(
+          cursorColor: cBlueColor,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: cWhiteColor.withOpacity(0.5),
+            hintText: "Buscar",
+            prefixIcon: Icon(
+              Icons.search,
+              color: cGreyColor,
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(26.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(26.0),
+            ),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.amberAccent,
+            ),
+          ),
+        ],
       ),
+      body: _pageOption.elementAt(_selectedPage),
     );
   }
 }

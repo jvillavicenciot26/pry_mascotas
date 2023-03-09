@@ -19,8 +19,8 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
     double cHeight = MediaQuery.of(context).size.height;
     return Container(
       //height: cHeight * 0.2,
-      //width: cWidth * 0.25,
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      width: cWidth * 0.82,
+      margin: const EdgeInsets.only(right: 15.0, bottom: 10.0),
       decoration: BoxDecoration(
         color: cWhiteColor,
         borderRadius: BorderRadius.circular(lCircularBorder),
@@ -33,11 +33,11 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        //mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             height: cHeight * 0.2,
-            width: cWidth * 0.48,
+            width: cWidth * 0.45, //0.48,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(lCircularBorder),
@@ -45,80 +45,87 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
               ),
               image: const DecorationImage(
                 image: NetworkImage(
-                  "https://images.pexels.com/photos/255387/pexels-photo-255387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  "https://images.pexels.com/photos/14594704/pexels-photo-14594704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                 ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              //mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      "Soy:",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        "Soy:",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      name,
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          color: cGreyColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        "Tengo:",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "$age años",
+                        style: const TextStyle(
+                          color: cGreyColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: cWidth * 0.3,
+                    child: Text(
+                      description,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: cGreyColor,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Tengo:",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      "$age años",
-                      style: const TextStyle(
-                        color: cGreyColor,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: cWidth * 0.3,
-                  child: Text(
-                    description,
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: cGreyColor,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Icon(Icons.female),
-                    Icon(Icons.message_outlined),
-                  ],
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Icon(
+                        Icons.female,
+                        color: cGreyColor,
+                      ),
+                      Icon(
+                        Icons.message_outlined,
+                        color: cGreyColor,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
