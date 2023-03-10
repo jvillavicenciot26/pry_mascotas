@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/home_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/widgets/connect_social_widget.dart';
 import 'package:pry_mascotas/widgets/green_button_widget.dart';
+import 'package:pry_mascotas/widgets/textfield_account_widget.dart';
+import 'package:pry_mascotas/widgets/textfield_password_widget.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
@@ -59,107 +62,37 @@ class SignUpPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextField(
-                          cursorColor: cBlueColor,
-                          decoration: InputDecoration(
-                            hintText: "Nombres",
-                            prefixIcon: const Icon(Icons.person),
-                            filled: true,
-                            fillColor: cWhiteColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
+                        TextFieldAccountWidget(
+                          hintText: "Nombres",
+                          icon: Icon(
+                            Icons.person,
+                            color: cGreyColor,
                           ),
                         ),
                         const SizedBox(
                           height: 10.0,
                         ),
-                        TextField(
-                          cursorColor: cBlueColor,
-                          decoration: InputDecoration(
-                            hintText: "Apellidos",
-                            prefixIcon: const Icon(Icons.person),
-                            filled: true,
-                            fillColor: cWhiteColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
+                        TextFieldAccountWidget(
+                          hintText: "Apellidos",
+                          icon: Icon(
+                            Icons.person,
+                            color: cGreyColor,
                           ),
                         ),
                         const SizedBox(
                           height: 10.0,
                         ),
-                        TextField(
-                          cursorColor: cBlueColor,
-                          decoration: InputDecoration(
-                            hintText: "Usuario",
-                            prefixIcon: const Icon(Icons.person),
-                            filled: true,
-                            fillColor: cWhiteColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
+                        TextFieldAccountWidget(
+                          hintText: "Usuario",
+                          icon: Icon(
+                            Icons.person,
+                            color: cGreyColor,
                           ),
                         ),
                         const SizedBox(
                           height: 10.0,
                         ),
-                        TextField(
-                          cursorColor: cBlueColor,
-                          decoration: InputDecoration(
-                            hintText: "Clave",
-                            prefixIcon: const Icon(Icons.key),
-                            filled: true,
-                            fillColor: cWhiteColor,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                              borderSide: const BorderSide(
-                                color: cGreyColor,
-                                width: 2.0,
-                              ),
-                            ),
-                          ),
-                        ),
+                        TextFielPasswordWidget(),
                         const SizedBox(
                           height: 10.0,
                         ),
@@ -177,64 +110,7 @@ class SignUpPage extends StatelessWidget {
                         const SizedBox(
                           height: 10.0,
                         ),
-                        Row(
-                          children: const [
-                            Expanded(
-                              child: Divider(
-                                color: cGreyColor,
-                                thickness: 2,
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                            ),
-                            Text(
-                              "o puedes conectar con",
-                              style: TextStyle(
-                                color: cGreyColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                color: cGreyColor,
-                                thickness: 2,
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: cWidth * 0.15,
-                              height: cWidth * 0.15,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/facebook.png",
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: cWidth * 0.15,
-                              height: cWidth * 0.15,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/google.png",
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        ConnectSocialWidet(),
                       ],
                     ),
                   ),

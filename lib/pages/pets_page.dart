@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pry_mascotas/pages/all_pets_lost_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/widgets/item_adoption_home_widget.dart';
 import 'package:pry_mascotas/widgets/item_lost_home_widget.dart';
@@ -18,7 +19,12 @@ class PetsPage extends StatelessWidget {
             children: [
               RowOptionsHomeWidget(
                 section: "Perdidas",
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AllPetsLostPage()),
+                  );
+                },
               ),
               const SizedBox(
                 height: 10,

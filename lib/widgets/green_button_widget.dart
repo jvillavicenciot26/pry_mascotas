@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/utils/constants.dart';
 
 class GreenButtonWiget extends StatelessWidget {
   String label;
@@ -17,6 +18,9 @@ class GreenButtonWiget extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: cGreenColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(lCircularBorder),
+          ),
         ),
         child: Text(
           label,

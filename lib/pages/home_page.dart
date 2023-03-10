@@ -90,8 +90,15 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: cBlueColor,
         elevation: 0,
-        leading: Icon(
-          Icons.person,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: cWhiteColor.withOpacity(0.4),
+            child: Icon(
+              Icons.person,
+              color: cWhiteColor,
+            ),
+          ),
         ),
         centerTitle: true,
         title: TextField(

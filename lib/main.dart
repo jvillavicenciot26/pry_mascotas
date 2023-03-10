@@ -13,6 +13,10 @@ class MyApp extends StatelessWidget {
       title: "Misión Patitas",
       theme: ThemeData(
         scaffoldBackgroundColor: cBlueColor,
+        appBarTheme: AppBarTheme(
+          backgroundColor: cBlueColor,
+          elevation: 0,
+        ),
       ),
       home: StartPage(),
     );
