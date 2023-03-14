@@ -3,20 +3,9 @@ import 'package:pry_mascotas/pages/specific_pet_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/utils/constants.dart';
 
-class ItemLostHomeWidget extends StatelessWidget {
-  String name;
-  double age;
-  int days;
-
-  ItemLostHomeWidget({
-    required this.name,
-    required this.age,
-    required this.days,
-  });
-
+class ItemAllPetLostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
@@ -28,8 +17,6 @@ class ItemLostHomeWidget extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 15.0, bottom: 10.0),
-        width: cWidth * 0.32,
         decoration: BoxDecoration(
           color: cWhiteColor,
           borderRadius: BorderRadius.circular(lCircularBorder),
@@ -43,48 +30,58 @@ class ItemLostHomeWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Container(
-              height: cHeight * 0.15,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(lCircularBorder),
-                  topLeft: Radius.circular(lCircularBorder),
-                ),
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                Container(
+                  height: cHeight * 0.22,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(lCircularBorder),
+                      topLeft: Radius.circular(lCircularBorder),
+                    ),
+                    image: const DecorationImage(
+                      image: NetworkImage(
+                        "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  fit: BoxFit.fill,
                 ),
-              ),
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  color: cGreenColor.withOpacity(0.7),
+                  child: const Text(
+                    "3 años",
+                    style: TextStyle(
+                      color: cGreyColor,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
-                            name,
-                            style: const TextStyle(
+                            "Bobby",
+                            style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 3,
-                          ),
-                          Text(
-                            "Edad: $age años",
-                            style: const TextStyle(
-                              color: cGreyColor,
-                              fontWeight: FontWeight.w500,
-                            ),
                           ),
                         ],
                       ),
@@ -97,9 +94,20 @@ class ItemLostHomeWidget extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  Text(
-                    "$days días",
-                    style: const TextStyle(
+                  const Text(
+                    "Esto es una prueba de descripcion que podria tener errores. Por eso estamos trabajando.",
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  const Text(
+                    "4 días",
+                    style: TextStyle(
                       color: cRedColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,

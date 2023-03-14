@@ -16,7 +16,7 @@ class TextFieldAccountWidget extends StatelessWidget {
         prefixIcon: icon,
         filled: true,
         fillColor: cWhiteColor,
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 12.0,
           vertical: 14.0,
         ),

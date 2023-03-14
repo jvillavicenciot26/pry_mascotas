@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                       children: [
                         TextFieldAccountWidget(
                           hintText: "Usuario",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.person,
                             color: cGreyColor,
                           ),

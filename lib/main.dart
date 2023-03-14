@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: "Misión Patitas",
       theme: ThemeData(
         scaffoldBackgroundColor: cBlueColor,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: cBlueColor,
           elevation: 0,
         ),

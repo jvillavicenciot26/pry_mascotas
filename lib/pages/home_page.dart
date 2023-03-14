@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/events_page.dart';
 import 'package:pry_mascotas/pages/map_page.dart';
@@ -13,15 +11,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedPage = 0;
-  List<Widget> _pageOption = [
+  final List<Widget> _pageOption = [
     PetsPage(),
     EventsPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
+    double cWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: cWhiteColor,
       floatingActionButton: FloatingActionButton(
@@ -47,7 +45,7 @@ class _HomePageState extends State<HomePage> {
               _selectedPage = value;
               setState(() {});
             },
-            items: [
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.pets,
@@ -75,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 height: cHeight * 0.08,
                 width: cHeight * 0.08,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
                       "assets/images/ic_maps.png",
@@ -90,47 +88,233 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: cBlueColor,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: cWhiteColor.withOpacity(0.4),
-            child: Icon(
-              Icons.person,
-              color: cWhiteColor,
-            ),
-          ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundColor: cWhiteColor.withOpacity(0.4),
+                child: IconButton(
+                  icon: Icon(Icons.person),
+                  color: cWhiteColor,
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+              ),
+            );
+          },
         ),
         centerTitle: true,
-        title: TextField(
-          cursorColor: cBlueColor,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: cWhiteColor.withOpacity(0.5),
-            hintText: "Buscar",
-            prefixIcon: Icon(
-              Icons.search,
-              color: cGreyColor,
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(26.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(26.0),
+        title: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            cursorColor: cBlueColor,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: cWhiteColor.withOpacity(0.5),
+              hintText: "Buscar",
+              prefixIcon: const Icon(
+                Icons.search,
+                color: cGreyColor,
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(26.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(26.0),
+              ),
             ),
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.amberAccent,
-            ),
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Colors.amberAccent,
+                ),
+              );
+            },
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: cBlueColor,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    ),
+                    radius: 35,
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  Text(
+                    "Nombre Apellido",
+                    style: TextStyle(
+                      color: cWhiteColor,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "correo@correo.com",
+                        style: TextStyle(
+                          color: cWhiteColor,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        color: cWhiteColor,
+                        //size: cHeight * 0.04,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              dense: true,
+              leading: Icon(
+                Icons.pets,
+                color: cGreyColor,
+                size: 30.0,
+              ),
+              title: Text(
+                "Mascotas perdidas",
+                style: TextStyle(
+                  color: cGreyColor,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            ListTile(
+              dense: true,
+              leading: Icon(
+                Icons.pets,
+                color: cGreyColor,
+                size: 30.0,
+              ),
+              title: Text(
+                "Mascotas en adopción.",
+                style: TextStyle(
+                  color: cGreyColor,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            ListTile(
+              dense: true,
+              leading: Icon(
+                Icons.pets,
+                color: cGreyColor,
+                size: 30.0,
+              ),
+              title: Text(
+                "Animales Rescatados",
+                style: TextStyle(
+                  color: cGreyColor,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            Divider(
+              indent: 20.0,
+              endIndent: 20.0,
+              color: cGreyColor,
+              thickness: 1.0,
+            ),
+            ListTile(
+              dense: true,
+              leading: Icon(
+                Icons.logout_rounded,
+                color: cGreyColor,
+                size: 30.0,
+              ),
+              title: Text(
+                "Cerrar sesión",
+                style: TextStyle(
+                  color: cGreyColor,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 12.0,
+              ),
+              Text(
+                "Notificaciones",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+              Container(
+                color: cBlueColor.withOpacity(0.2),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 8.0,
+                  ),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    ),
+                    //radius: 28,
+                  ),
+                  title: Text(
+                    "Mascotas perdidas",
+                    style: TextStyle(
+                      color: cGreyColor,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  subtitle: Text(
+                    "Nuevo reporte de tu mascota.",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: cGreyColor,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: _pageOption.elementAt(_selectedPage),
     );

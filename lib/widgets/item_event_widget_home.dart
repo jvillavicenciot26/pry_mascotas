@@ -6,12 +6,11 @@ import 'package:pry_mascotas/widgets/white_button_widget.dart';
 class ItemEventHomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     double cHeight = MediaQuery.of(context).size.height;
     return Container(
       //height: cHeight * 0.35,
       width: double.infinity,
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: cWhiteColor,
         borderRadius: BorderRadius.circular(lCircularBorder),
@@ -34,7 +33,7 @@ class ItemEventHomeWidget extends StatelessWidget {
                 topLeft: Radius.circular(lCircularBorder),
                 topRight: Radius.circular(lCircularBorder),
               ),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: NetworkImage(
                   "https://peru21.pe/resizer/0INjZlyXxgkcggIv4kn4CfCaZkE=/980x0/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/A7OFXK4Y25E5VEUKEYEYVGF2N4.jpg",
                 ),
@@ -48,16 +47,16 @@ class ItemEventHomeWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "jue, 23 feb 2023",
                   style: TextStyle(
                     color: cGreyColor,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6.0,
                 ),
-                Text(
+                const Text(
                   "Mascoting - Barcelona",
                   style: TextStyle(
                     color: Colors.black,
@@ -65,7 +64,7 @@ class ItemEventHomeWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Row(
@@ -76,12 +75,12 @@ class ItemEventHomeWidget extends StatelessWidget {
                         onPressed: () {},
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Trujillo - Peru",
                           style: TextStyle(

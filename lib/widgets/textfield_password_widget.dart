@@ -17,7 +17,7 @@ class _TextFielPasswordWidgetState extends State<TextFielPasswordWidget> {
       cursorColor: cBlueColor,
       decoration: InputDecoration(
         hintText: "Clave",
-        prefixIcon: Icon(
+        prefixIcon: const Icon(
           Icons.key,
           color: cGreyColor,
         ),

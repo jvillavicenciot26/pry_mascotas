@@ -10,11 +10,11 @@ class MapPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(
+        leading: const BackButton(
           color: cGreyColor,
         ), //IconButton(icon: Icons.bac),
       ),
-      body: GoogleMap(
+      body: const GoogleMap(
         initialCameraPosition: CameraPosition(
           target: LatLng(-8.11403443221283, -79.00578005010047),
           zoom: 12,

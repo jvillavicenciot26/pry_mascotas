@@ -64,7 +64,7 @@ class SignUpPage extends StatelessWidget {
                       children: [
                         TextFieldAccountWidget(
                           hintText: "Nombres",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.person,
                             color: cGreyColor,
                           ),
@@ -74,7 +74,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         TextFieldAccountWidget(
                           hintText: "Apellidos",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.person,
                             color: cGreyColor,
                           ),
@@ -84,7 +84,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         TextFieldAccountWidget(
                           hintText: "Usuario",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.person,
                             color: cGreyColor,
                           ),
