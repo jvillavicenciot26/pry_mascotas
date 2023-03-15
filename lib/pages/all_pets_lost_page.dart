@@ -13,6 +13,11 @@ class AllPetsLostPage extends StatelessWidget {
           "Mascotas Perdidas",
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: cBlueColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(

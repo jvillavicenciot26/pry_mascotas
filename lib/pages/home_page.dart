@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/events_page.dart';
 import 'package:pry_mascotas/pages/map_page.dart';
 import 'package:pry_mascotas/pages/pets_page.dart';
+import 'package:pry_mascotas/pages/profile_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,17 +21,56 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double cHeight = MediaQuery.of(context).size.height;
-    double cWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: cWhiteColor,
-      floatingActionButton: FloatingActionButton(
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: cBlueColor,
+      //   onPressed: () {},
+      //   child: Icon(
+      //     Icons.add,
+      //     color: cWhiteColor,
+      //     size: cHeight * 0.05,
+      //   ),
+      // ),
+      floatingActionButton: SpeedDial(
+        spacing: 12,
         backgroundColor: cBlueColor,
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: cWhiteColor,
-          size: cHeight * 0.05,
-        ),
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        activeBackgroundColor: cGreenColor,
+        activeForegroundColor: Colors.black,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        elevation: 8.0,
+        children: _selectedPage == 0
+            ? [
+                SpeedDialChild(
+                  child: Icon(Icons.pets),
+                  label: "Mascota Rescatada",
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  onTap: () {},
+                ),
+                SpeedDialChild(
+                  child: Icon(Icons.pets),
+                  label: "Mascota en Adopcion",
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  onTap: () {},
+                ),
+                SpeedDialChild(
+                  child: Icon(Icons.pets),
+                  label: "Mascota Perdida",
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  onTap: () {},
+                ),
+              ]
+            : [
+                SpeedDialChild(
+                  child: Icon(Icons.event_available_rounded),
+                  label: "Evento",
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  onTap: () {},
+                ),
+              ],
       ),
       bottomNavigationBar: Stack(
         clipBehavior: Clip.none,
@@ -191,6 +232,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+            ),
+            ListTile(
+              dense: true,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              },
+              leading: Icon(
+                Icons.person,
+                color: cGreyColor,
+                size: 30.0,
+              ),
+              title: Text(
+                "Mi Perfil",
+                style: TextStyle(
+                  color: cGreyColor,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            Divider(
+              indent: 20.0,
+              endIndent: 20.0,
+              color: cGreyColor,
+              thickness: 1.0,
             ),
             ListTile(
               dense: true,
