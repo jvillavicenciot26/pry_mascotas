@@ -5,6 +5,8 @@ import 'package:pry_mascotas/pages/pets_page.dart';
 import 'package:pry_mascotas/pages/profile_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:pry_mascotas/utils/types.dart';
+import 'package:pry_mascotas/widgets/textfield_common_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,15 +25,6 @@ class _HomePageState extends State<HomePage> {
     double cHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: cWhiteColor,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: cBlueColor,
-      //   onPressed: () {},
-      //   child: Icon(
-      //     Icons.add,
-      //     color: cWhiteColor,
-      //     size: cHeight * 0.05,
-      //   ),
-      // ),
       floatingActionButton: SpeedDial(
         spacing: 12,
         backgroundColor: cBlueColor,
@@ -147,26 +140,13 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            cursorColor: cBlueColor,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: cWhiteColor.withOpacity(0.5),
-              hintText: "Buscar",
-              prefixIcon: const Icon(
-                Icons.search,
-                color: cGreyColor,
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(26.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(26.0),
-              ),
+          child: TextFieldCommonWidget(
+            hintText: "Buscar",
+            icon: const Icon(
+              Icons.search,
+              color: cGreyColor,
             ),
+            type: InputType.text,
           ),
         ),
         actions: [
@@ -187,14 +167,12 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
                 color: cBlueColor,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
@@ -233,99 +211,108 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            ListTile(
-              dense: true,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
+            Expanded(
+              child: Column(
+                children: [
+                  ListTile(
+                    dense: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.person,
+                      color: cGreyColor,
+                      size: 30.0,
+                    ),
+                    title: Text(
+                      "Mi Perfil",
+                      style: TextStyle(
+                        color: cGreyColor,
+                        fontSize: 16.0,
+                      ),
+                    ),
                   ),
-                );
-              },
-              leading: Icon(
-                Icons.person,
-                color: cGreyColor,
-                size: 30.0,
-              ),
-              title: Text(
-                "Mi Perfil",
-                style: TextStyle(
-                  color: cGreyColor,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-            Divider(
-              indent: 20.0,
-              endIndent: 20.0,
-              color: cGreyColor,
-              thickness: 1.0,
-            ),
-            ListTile(
-              dense: true,
-              leading: Icon(
-                Icons.pets,
-                color: cGreyColor,
-                size: 30.0,
-              ),
-              title: Text(
-                "Mascotas perdidas",
-                style: TextStyle(
-                  color: cGreyColor,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-            ListTile(
-              dense: true,
-              leading: Icon(
-                Icons.pets,
-                color: cGreyColor,
-                size: 30.0,
-              ),
-              title: Text(
-                "Mascotas en adopción.",
-                style: TextStyle(
-                  color: cGreyColor,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-            ListTile(
-              dense: true,
-              leading: Icon(
-                Icons.pets,
-                color: cGreyColor,
-                size: 30.0,
-              ),
-              title: Text(
-                "Animales Rescatados",
-                style: TextStyle(
-                  color: cGreyColor,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-            Divider(
-              indent: 20.0,
-              endIndent: 20.0,
-              color: cGreyColor,
-              thickness: 1.0,
-            ),
-            ListTile(
-              dense: true,
-              leading: Icon(
-                Icons.logout_rounded,
-                color: cGreyColor,
-                size: 30.0,
-              ),
-              title: Text(
-                "Cerrar sesión",
-                style: TextStyle(
-                  color: cGreyColor,
-                  fontSize: 16.0,
-                ),
+                  Divider(
+                    indent: 20.0,
+                    endIndent: 20.0,
+                    color: cGreyColor,
+                    thickness: 1.0,
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.pets,
+                      color: cGreyColor,
+                      size: 30.0,
+                    ),
+                    title: Text(
+                      "Mascotas perdidas",
+                      style: TextStyle(
+                        color: cGreyColor,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.pets,
+                      color: cGreyColor,
+                      size: 30.0,
+                    ),
+                    title: Text(
+                      "Mascotas en adopción.",
+                      style: TextStyle(
+                        color: cGreyColor,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.pets,
+                      color: cGreyColor,
+                      size: 30.0,
+                    ),
+                    title: Text(
+                      "Animales Rescatados",
+                      style: TextStyle(
+                        color: cGreyColor,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                  ),
+                  Divider(
+                    indent: 20.0,
+                    endIndent: 20.0,
+                    color: cGreyColor,
+                    thickness: 1.0,
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.logout_rounded,
+                      color: cGreyColor,
+                      size: 30.0,
+                    ),
+                    title: Text(
+                      "Cerrar sesión",
+                      style: TextStyle(
+                        color: cGreyColor,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

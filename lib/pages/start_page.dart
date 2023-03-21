@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pry_mascotas/pages/login_page.dart';
 import 'package:pry_mascotas/pages/signup_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
-import 'package:pry_mascotas/widgets/green_button_widget.dart';
-import 'package:pry_mascotas/widgets/white_button_widget.dart';
+import 'package:pry_mascotas/widgets/common_button_widget.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -84,7 +83,7 @@ class StartPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          GreenButtonWiget(
+                          CommonButtonWiget(
                             label: "INICIAR SESIÓN",
                             onPressed: () {
                               Navigator.push(
@@ -95,11 +94,13 @@ class StartPage extends StatelessWidget {
                                 ),
                               );
                             },
+                            backColor: cGreenColor,
+                            textColor: cBlackColor,
                           ),
                           const SizedBox(
                             height: 10.0,
                           ),
-                          WhiteButtonWidget(
+                          CommonButtonWiget(
                             label: "REGISTRATE",
                             onPressed: () {
                               Navigator.push(
@@ -110,6 +111,10 @@ class StartPage extends StatelessWidget {
                                 ),
                               );
                             },
+                            backColor: cWhiteColor,
+                            textColor: cBlueColor,
+                            withBorder: true,
+                            borderColor: cBlueColor,
                           ),
                         ],
                       ),

@@ -23,7 +23,7 @@ class ItemLostHomeWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SpecificPet(),
+            builder: (context) => SpecificPet(origin: "L"),
           ),
         );
       },

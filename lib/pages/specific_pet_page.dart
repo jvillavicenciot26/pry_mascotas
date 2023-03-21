@@ -1,11 +1,14 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/utils/constants.dart';
-import 'package:pry_mascotas/widgets/green_button_widget.dart';
+import 'package:pry_mascotas/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/widgets/common_circular_button_widget.dart';
+import 'package:pry_mascotas/widgets/common_information_pet_widget.dart';
 
 class SpecificPet extends StatelessWidget {
+  String origin;
+  SpecificPet({required this.origin});
+
   @override
   Widget build(BuildContext context) {
     double cHeight = MediaQuery.of(context).size.height;
@@ -19,7 +22,7 @@ class SpecificPet extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
             backgroundColor: cWhiteColor.withOpacity(0.25),
-            child: BackButton(
+            child: const BackButton(
               color: cWhiteColor,
             ),
           ),
@@ -35,7 +38,7 @@ class SpecificPet extends StatelessWidget {
                 bottomLeft: Radius.circular(lCircularBorder),
                 bottomRight: Radius.circular(lCircularBorder),
               ),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: NetworkImage(
                   "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                 ),
@@ -43,237 +46,163 @@ class SpecificPet extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tobby",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_pin,
-                            ),
-                            Text(
-                              "Trujillo - Perú",
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "20/12/2022",
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: cBlueColor.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(lCircularBorder),
-                      ),
-                      child: Column(
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Genero",
-                            style: TextStyle(
-                              color: cBlueColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 16.0,
-                          ),
-                          Text(
-                            "Macho",
-                            style: TextStyle(
-                              color: cBlueColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: cGreenColor.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(lCircularBorder),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Genero",
+                          const Text(
+                            "Tobby",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
+                              fontSize: 25.0,
                             ),
                           ),
-                          SizedBox(
-                            height: 16.0,
+                          const SizedBox(
+                            height: 4.0,
                           ),
-                          Text(
-                            "Macho",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.location_pin,
+                                size: 18.0,
+                              ),
+                              Text(
+                                "Trujillo - Perú",
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: cRedColor.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(lCircularBorder),
+                      const Text(
+                        "20/12/2022",
                       ),
-                      child: Column(
+                    ],
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CommonInformationPetWidget(
+                        title: "Genero",
+                        data: "Macho",
+                        color: cBlueColor,
+                      ),
+                      CommonInformationPetWidget(
+                        title: "Edad",
+                        data: "2 años",
+                        color: cGreenColor,
+                      ),
+                      CommonInformationPetWidget(
+                        title: "Tiempo",
+                        data: "4 dias",
+                        color: cRedColor,
+                      ),
+                    ],
+                  ),
+                  const Expanded(child: SizedBox()),
+                  const Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Text(
-                            "Genero",
-                            style: TextStyle(
-                              color: cRedColor,
-                              fontWeight: FontWeight.bold,
+                          CircleAvatar(
+                            radius: cHeight * 0.03,
+                            backgroundImage: const NetworkImage(
+                              "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                             ),
                           ),
-                          SizedBox(
-                            height: 16.0,
+                          const SizedBox(
+                            width: 10.0,
                           ),
-                          Text(
-                            "Macho",
-                            style: TextStyle(
-                              color: cRedColor,
-                            ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "Nombre de persona",
+                              ),
+                              Text(
+                                "Dueño",
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: cHeight * 0.03,
-                          backgroundImage: NetworkImage(
-                            "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Nombre de persona",
-                            ),
-                            Text(
-                              "Dueño",
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: cGreenColor.withOpacity(0.25),
-                          radius: cHeight * 0.03,
-                          child: Icon(
-                            Icons.message_outlined,
+                      Row(
+                        children: [
+                          CommonCircularButtonWidget(
                             color: cGreenColor,
+                            icon: Icons.message_outlined,
+                            fHeight: 0.03,
+                            onTap: () {},
                           ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        CircleAvatar(
-                          backgroundColor: cBlueColor.withOpacity(0.25),
-                          radius: cHeight * 0.03,
-                          child: Icon(
-                            Icons.location_on_outlined,
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          CommonCircularButtonWidget(
                             color: cBlueColor,
+                            icon: Icons.location_on_outlined,
+                            fHeight: 0.03,
+                            onTap: () {},
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Encontrado",
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: cBlueColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(lCircularBorder),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Visto",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: cGreenColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(lCircularBorder),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                        ],
+                      )
+                    ],
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: origin == "L"
+                        ? [
+                            Expanded(
+                              child: CommonButtonWiget(
+                                label: "Encontrado",
+                                backColor: cBlueColor,
+                                textColor: cWhiteColor,
+                                onPressed: () {},
+                              ),
+                            ),
+                            Expanded(
+                              child: CommonButtonWiget(
+                                label: "Visto",
+                                backColor: cGreenColor,
+                                textColor: cBlackColor,
+                                onPressed: () {},
+                              ),
+                            ),
+                          ]
+                        : [
+                            Expanded(
+                              child: CommonButtonWiget(
+                                label: origin == "A" ? "Adoptame" : "Ayudame",
+                                backColor: cBlueColor,
+                                textColor: cWhiteColor,
+                                onPressed: () {},
+                                origin: origin,
+                              ),
+                            ),
+                          ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

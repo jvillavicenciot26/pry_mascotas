@@ -3,7 +3,7 @@ import 'package:pry_mascotas/pages/all_pets_lost_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/widgets/item_adoption_home_widget.dart';
 import 'package:pry_mascotas/widgets/item_lost_home_widget.dart';
-import 'package:pry_mascotas/widgets/item_rescue_homre_widget.dart';
+import 'package:pry_mascotas/widgets/item_rescue_home_widget.dart';
 import 'package:pry_mascotas/widgets/row_options_home_widget.dart';
 
 class PetsPage extends StatelessWidget {

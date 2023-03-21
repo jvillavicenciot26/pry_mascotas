@@ -1,4 +1,4 @@
-package com.example.pry_mascotas
+package com.mision.patitas.pe
 
 import io.flutter.embedding.android.FlutterActivity
 

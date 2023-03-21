@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "8736852721",
+    "project_id": "misionpatitas-9f95d",
+    "storage_bucket": "misionpatitas-9f95d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8736852721:android:d2d5f5e02748619a92f750",
+        "android_client_info": {
+          "package_name": "com.mision.patitas.pe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8736852721-fkvklc31niht9dc138470bo20qthi93m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDGMJbz7-J7h5uCoU7OBix2c-uWzDnd7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8736852721-fkvklc31niht9dc138470bo20qthi93m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

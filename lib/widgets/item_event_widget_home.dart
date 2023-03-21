@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/utils/constants.dart';
-import 'package:pry_mascotas/widgets/white_button_widget.dart';
+import 'package:pry_mascotas/widgets/common_button_widget.dart';
 
 class ItemEventHomeWidget extends StatelessWidget {
   @override
@@ -70,9 +70,13 @@ class ItemEventHomeWidget extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: WhiteButtonWidget(
+                      child: CommonButtonWiget(
                         label: "Detalles",
                         onPressed: () {},
+                        backColor: cWhiteColor,
+                        textColor: cBlueColor,
+                        withBorder: true,
+                        borderColor: cBlueColor,
                       ),
                     ),
                     const SizedBox(

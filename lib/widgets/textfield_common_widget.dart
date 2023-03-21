@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/types.dart';
 
-class TextFieldAccountWidget extends StatelessWidget {
+class TextFieldCommonWidget extends StatelessWidget {
   String hintText;
   Icon icon;
-  TextFieldAccountWidget({required this.hintText, required this.icon});
+  InputType type;
+  TextFieldCommonWidget({
+    required this.hintText,
+    required this.icon,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: cBlueColor,
+      keyboardType: type == InputType.dni || type == InputType.phone
+          ? TextInputType.number
+          : TextInputType.text,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: icon,
@@ -23,18 +32,10 @@ class TextFieldAccountWidget extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(lCircularBorder),
           borderSide: BorderSide.none,
-          // const BorderSide(
-          //   color: cGreyColor,
-          //   width: 2.0,
-          // ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(lCircularBorder),
           borderSide: BorderSide.none,
-          // const BorderSide(
-          //   color: cGreyColor,
-          //   width: 2.0,
-          // ),
         ),
       ),
     );
