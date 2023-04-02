@@ -16,7 +16,7 @@ class TextFieldCommonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      cursorColor: cBlueColor,
+      cursorColor: BrandColor.cBlueColor,
       keyboardType: type == InputType.dni || type == InputType.phone
           ? TextInputType.number
           : TextInputType.text,
@@ -24,7 +24,7 @@ class TextFieldCommonWidget extends StatelessWidget {
         hintText: hintText,
         prefixIcon: icon,
         filled: true,
-        fillColor: cWhiteColor,
+        fillColor: BrandColor.cWhiteColor,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12.0,
           vertical: 14.0,

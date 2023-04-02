@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/specific_pet_page.dart';
+import 'package:pry_mascotas/ui/pages/specific_pet_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ItemLostHomeWidget extends StatelessWidget {
   String name;
@@ -16,8 +19,6 @@ class ItemLostHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
-    double cHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -29,13 +30,13 @@ class ItemLostHomeWidget extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(right: 15.0, bottom: 10.0),
-        width: cWidth * 0.32,
+        width: ResponsiveUI.pWidth(context, 0.32), //cWidth * 0.32,
         decoration: BoxDecoration(
-          color: cWhiteColor,
+          color: BrandColor.cWhiteColor,
           borderRadius: BorderRadius.circular(lCircularBorder),
           boxShadow: [
             BoxShadow(
-              color: cGreyColor.withOpacity(0.2),
+              color: BrandColor.cGreyColor.withOpacity(0.2),
               offset: const Offset(3, 3),
               blurRadius: 5.0,
             ),
@@ -44,7 +45,7 @@ class ItemLostHomeWidget extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: cHeight * 0.15,
+              height: ResponsiveUI.pHeight(context, 0.15), //cHeight * 0.15,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(lCircularBorder),
@@ -68,23 +69,16 @@ class ItemLostHomeWidget extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            name,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                          H3(
+                            text: name,
+                            color: BrandColor.cBlackColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            "Edad: $age años",
-                            style: const TextStyle(
-                              color: cGreyColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          spacing4,
+                          H5(
+                            text: "Edad: $age años",
+                            color: BrandColor.cGreyColor,
+                            fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),
@@ -94,16 +88,11 @@ class ItemLostHomeWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    "$days días",
-                    style: const TextStyle(
-                      color: cRedColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
+                  spacing4,
+                  H4(
+                    text: "$days días",
+                    color: BrandColor.cRedColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ],
               ),

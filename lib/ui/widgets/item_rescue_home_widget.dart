@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/specific_pet_page.dart';
+import 'package:pry_mascotas/ui/pages/specific_pet_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ItemRescueHomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
-    double cHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -17,7 +19,7 @@ class ItemRescueHomeWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: cHeight * 0.2,
+        height: ResponsiveUI.pHeight(context, 0.2), //cHeight * 0.2,
         width: double.infinity,
         margin: const EdgeInsets.only(
           bottom: 15.0,
@@ -26,8 +28,9 @@ class ItemRescueHomeWidget extends StatelessWidget {
           //mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: cHeight * 0.2,
-              width: cWidth * 0.38, //0.48,
+              height: ResponsiveUI.pHeight(context, 0.2), //cHeight * 0.2,
+              width:
+                  ResponsiveUI.pWidth(context, 0.38), //cWidth * 0.38, //0.48,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.0),
                 image: const DecorationImage(
@@ -41,14 +44,14 @@ class ItemRescueHomeWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: cWhiteColor,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(26.0),
-                    bottomRight: Radius.circular(26.0),
+                  color: BrandColor.cWhiteColor,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(lCircularBorder),
+                    bottomRight: Radius.circular(lCircularBorder),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: cGreyColor.withOpacity(0.2),
+                      color: BrandColor.cGreyColor.withOpacity(0.2),
                       offset: const Offset(3, 3),
                       blurRadius: 5.0,
                     )
@@ -60,56 +63,44 @@ class ItemRescueHomeWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
-                        children: const [
-                          Text(
-                            "Especie:",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        children: [
+                          H5(
+                            text: "Especie: ",
+                            color: BrandColor.cBlackColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            "Conejo",
-                            style: TextStyle(
-                              color: cGreyColor,
-                            ),
+                          H5(
+                            text: "Conejo: ",
+                            color: BrandColor.cGreyColor,
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
+                      spacing8,
                       Row(
-                        children: const [
-                          Text(
-                            "Condicion:",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        children: [
+                          H5(
+                            text: "Condicion: ",
+                            color: BrandColor.cBlackColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            "Conejo",
-                            style: TextStyle(
-                              color: cGreyColor,
-                            ),
+                          H5(
+                            text: "Conejo: ",
+                            color: BrandColor.cGreyColor,
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
+                      spacing16,
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Icon(
                             Icons.message_outlined,
-                            color: cGreyColor,
+                            color: BrandColor.cGreyColor,
                           ),
                           Icon(
                             Icons.female,
-                            color: cGreyColor,
+                            color: BrandColor.cGreyColor,
                           ),
                         ],
                       ),

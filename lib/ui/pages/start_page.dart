@@ -1,18 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/login_page.dart';
-import 'package:pry_mascotas/pages/signup_page.dart';
+import 'package:pry_mascotas/ui/pages/login_page.dart';
+import 'package:pry_mascotas/ui/pages/signup_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
-import 'package:pry_mascotas/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/utils/asset_data.dart';
+import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
-    double cHeight = MediaQuery.of(context).size.height;
-    //double pyth = sqrt(pow(cHeight, 2) + pow(cWidth, 2));
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,12 +29,12 @@ class StartPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: cWidth * 0.2,
-                        height: cWidth * 0.2,
+                        width: ResponsiveUI.pWidth(context, 0.2),
+                        height: ResponsiveUI.pWidth(context, 0.2),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                              "assets/images/logo.png",
+                              AssetData.imageLogo,
                             ),
                           ),
                         ),
@@ -42,7 +42,7 @@ class StartPage extends StatelessWidget {
                       const Text(
                         "Misión \nPatitas",
                         style: TextStyle(
-                          color: cWhiteColor,
+                          color: BrandColor.cWhiteColor,
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -50,15 +50,16 @@ class StartPage extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                    left: cWidth * 0.7,
+                    left: ResponsiveUI.pWidth(context, 0.7),
                     child: Transform.rotate(
                       angle: pi / -5,
                       child: Container(
-                        width: cWidth * 0.35,
-                        height: cHeight * 0.25,
+                        width: ResponsiveUI.pWidth(context, 0.35),
+                        height: ResponsiveUI.pHeight(
+                            context, 0.25), //cHeight * 0.25,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/huellas.png"),
+                            image: AssetImage(AssetData.imageHuellas),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -69,10 +70,10 @@ class StartPage extends StatelessWidget {
               ),
               Container(
                 width: double.infinity,
-                height: cHeight * 0.2,
+                height: ResponsiveUI.pHeight(context, 0.2),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(26.0),
-                  color: cWhiteColor.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(lCircularBorder),
+                  color: BrandColor.cWhiteColor.withOpacity(0.6),
                 ),
                 child: Stack(
                   alignment: Alignment.center,
@@ -94,12 +95,10 @@ class StartPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            backColor: cGreenColor,
-                            textColor: cBlackColor,
+                            backColor: BrandColor.cGreenColor,
+                            textColor: BrandColor.cBlackColor,
                           ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
+                          spacing10,
                           CommonButtonWiget(
                             label: "REGISTRATE",
                             onPressed: () {
@@ -111,23 +110,22 @@ class StartPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            backColor: cWhiteColor,
-                            textColor: cBlueColor,
+                            backColor: BrandColor.cWhiteColor,
+                            textColor: BrandColor.cBlueColor,
                             withBorder: true,
-                            borderColor: cBlueColor,
+                            borderColor: BrandColor.cBlueColor,
                           ),
                         ],
                       ),
                     ),
                     Positioned(
-                      bottom: cHeight * 0.135,
+                      bottom: ResponsiveUI.pHeight(context, 0.135),
                       child: Container(
-                        width: cWidth * 0.92,
-                        height: cHeight * 0.35,
+                        width: ResponsiveUI.pWidth(context, 0.92),
+                        height: ResponsiveUI.pHeight(context, 0.35),
                         decoration: const BoxDecoration(
-                          //color: Colors.amber,
                           image: DecorationImage(
-                            image: AssetImage("assets/images/img_start.png"),
+                            image: AssetImage(AssetData.imageImgStart),
                             fit: BoxFit.fill,
                           ),
                         ),

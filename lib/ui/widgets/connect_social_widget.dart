@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/utils/asset_data.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ConnectSocialWidet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
-          children: const [
-            Expanded(
+          children: [
+            const Expanded(
               child: Divider(
-                color: cGreyColor,
+                color: BrandColor.cGreyColor,
                 thickness: 2,
                 indent: 10,
                 endIndent: 10,
               ),
             ),
-            Text(
-              "o puedes conectar con",
-              style: TextStyle(
-                color: cGreyColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
+            H4(
+              text: "o puedes conectar con",
+              color: BrandColor.cGreyColor,
+              fontWeight: FontWeight.bold,
             ),
-            Expanded(
+            const Expanded(
               child: Divider(
-                color: cGreyColor,
+                color: BrandColor.cGreyColor,
                 thickness: 2,
                 indent: 10,
                 endIndent: 10,
@@ -36,30 +36,28 @@ class ConnectSocialWidet extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          height: 10.0,
-        ),
+        spacing10,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-              width: cWidth * 0.15,
-              height: cWidth * 0.15,
+              width: ResponsiveUI.pWidth(context, 0.15), //cWidth * 0.15,
+              height: ResponsiveUI.pWidth(context, 0.15), //cWidth * 0.15,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/facebook.png",
+                    AssetData.imagFacebook,
                   ),
                 ),
               ),
             ),
             Container(
-              width: cWidth * 0.15,
-              height: cWidth * 0.15,
+              width: ResponsiveUI.pWidth(context, 0.15), //cWidth * 0.15,
+              height: ResponsiveUI.pWidth(context, 0.15), //cWidth * 0.15,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/google.png",
+                    AssetData.imageGoogle,
                   ),
                 ),
               ),

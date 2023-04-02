@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/all_pets_lost_page.dart';
+import 'package:pry_mascotas/ui/pages/all_pets_lost_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
-import 'package:pry_mascotas/widgets/item_adoption_home_widget.dart';
-import 'package:pry_mascotas/widgets/item_lost_home_widget.dart';
-import 'package:pry_mascotas/widgets/item_rescue_home_widget.dart';
-import 'package:pry_mascotas/widgets/row_options_home_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/ui/widgets/item_adoption_home_widget.dart';
+import 'package:pry_mascotas/ui/widgets/item_lost_home_widget.dart';
+import 'package:pry_mascotas/ui/widgets/item_rescue_home_widget.dart';
+import 'package:pry_mascotas/ui/widgets/row_options_home_widget.dart';
 
 class PetsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cWhiteColor,
+      backgroundColor: BrandColor.cWhiteColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -26,9 +27,7 @@ class PetsPage extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              spacing10,
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
@@ -43,16 +42,12 @@ class PetsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              spacing10,
               RowOptionsHomeWidget(
                 section: "En Adopción",
                 onTap: () {},
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              spacing10,
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
@@ -79,20 +74,17 @@ class PetsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              spacing10,
               RowOptionsHomeWidget(
                 section: "Rescatadas",
                 onTap: () {},
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              spacing10,
               ListView.builder(
-                scrollDirection: Axis.vertical,
+                //scrollDirection: Axis.vertical,
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 2,
+                itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
                   return ItemRescueHomeWidget();
                 },

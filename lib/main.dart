@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/start_page.dart';
+import 'package:pry_mascotas/ui/pages/start_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 
 void main() {
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Misión Patitas",
       theme: ThemeData(
-        scaffoldBackgroundColor: cBlueColor,
+        scaffoldBackgroundColor: BrandColor.cBlueColor,
         appBarTheme: const AppBarTheme(
-          backgroundColor: cBlueColor,
+          backgroundColor: BrandColor.cBlueColor,
           elevation: 0,
         ),
       ),

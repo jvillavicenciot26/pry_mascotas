@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/events_page.dart';
-import 'package:pry_mascotas/pages/map_page.dart';
-import 'package:pry_mascotas/pages/pets_page.dart';
-import 'package:pry_mascotas/pages/profile_page.dart';
+import 'package:pry_mascotas/ui/pages/events_page.dart';
+import 'package:pry_mascotas/ui/pages/map_page.dart';
+import 'package:pry_mascotas/ui/pages/pets_page.dart';
+import 'package:pry_mascotas/ui/pages/profile_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/utils/asset_data.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 import 'package:pry_mascotas/utils/types.dart';
-import 'package:pry_mascotas/widgets/textfield_common_widget.dart';
+import 'package:pry_mascotas/ui/widgets/textfield_common_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,13 +28,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double cHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: cWhiteColor,
+      backgroundColor: BrandColor.cWhiteColor,
       floatingActionButton: SpeedDial(
         spacing: 12,
-        backgroundColor: cBlueColor,
+        backgroundColor: BrandColor.cBlueColor,
         icon: Icons.add,
         activeIcon: Icons.close,
-        activeBackgroundColor: cGreenColor,
+        activeBackgroundColor: BrandColor.cGreenColor,
         activeForegroundColor: Colors.black,
         overlayColor: Colors.black,
         overlayOpacity: 0.5,
@@ -38,29 +42,29 @@ class _HomePageState extends State<HomePage> {
         children: _selectedPage == 0
             ? [
                 SpeedDialChild(
-                  child: Icon(Icons.pets),
+                  child: const Icon(Icons.pets),
                   label: "Mascota Rescatada",
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   onTap: () {},
                 ),
                 SpeedDialChild(
-                  child: Icon(Icons.pets),
+                  child: const Icon(Icons.pets),
                   label: "Mascota en Adopcion",
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   onTap: () {},
                 ),
                 SpeedDialChild(
-                  child: Icon(Icons.pets),
+                  child: const Icon(Icons.pets),
                   label: "Mascota Perdida",
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   onTap: () {},
                 ),
               ]
             : [
                 SpeedDialChild(
-                  child: Icon(Icons.event_available_rounded),
+                  child: const Icon(Icons.event_available_rounded),
                   label: "Evento",
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   onTap: () {},
                 ),
               ],
@@ -70,9 +74,9 @@ class _HomePageState extends State<HomePage> {
         alignment: Alignment.topCenter,
         children: [
           BottomNavigationBar(
-            backgroundColor: cBlueColor,
-            selectedItemColor: cWhiteColor,
-            unselectedItemColor: cWhiteColor.withOpacity(0.7),
+            backgroundColor: BrandColor.cBlueColor,
+            selectedItemColor: BrandColor.cWhiteColor,
+            unselectedItemColor: BrandColor.cWhiteColor.withOpacity(0.7),
             showUnselectedLabels: false,
             currentIndex: _selectedPage,
             onTap: (int value) {
@@ -99,18 +103,19 @@ class _HomePageState extends State<HomePage> {
             child: InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MapPage(),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MapPage(),
+                  ),
+                );
               },
               child: Container(
-                height: cHeight * 0.08,
-                width: cHeight * 0.08,
+                height: ResponsiveUI.pHeight(context, 0.08), //cHeight * 0.08,
+                width: ResponsiveUI.pHeight(context, 0.08), //cHeight * 0.08,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      "assets/images/ic_maps.png",
+                      AssetData.imageIcMaps,
                     ),
                   ),
                 ),
@@ -120,17 +125,17 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       appBar: AppBar(
-        backgroundColor: cBlueColor,
+        backgroundColor: BrandColor.cBlueColor,
         elevation: 0,
         leading: Builder(
           builder: (BuildContext context) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: cWhiteColor.withOpacity(0.4),
+                backgroundColor: BrandColor.cWhiteColor.withOpacity(0.4),
                 child: IconButton(
-                  icon: Icon(Icons.person),
-                  color: cWhiteColor,
+                  icon: const Icon(Icons.person),
+                  color: BrandColor.cWhiteColor,
                   onPressed: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
@@ -144,7 +149,7 @@ class _HomePageState extends State<HomePage> {
             hintText: "Buscar",
             icon: const Icon(
               Icons.search,
-              color: cGreyColor,
+              color: BrandColor.cGreyColor,
             ),
             type: InputType.text,
           ),
@@ -169,42 +174,33 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: cBlueColor,
+              decoration: const BoxDecoration(
+                color: BrandColor.cBlueColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage: NetworkImage(
                       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                     ),
                     radius: 35,
                   ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  Text(
-                    "Nombre Apellido",
-                    style: TextStyle(
-                      color: cWhiteColor,
-                      fontSize: 20.0,
-                    ),
+                  spacing16,
+                  H3(
+                    text: "Nombre Apellido",
+                    color: BrandColor.cWhiteColor,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "correo@correo.com",
-                        style: TextStyle(
-                          color: cWhiteColor,
-                          fontSize: 14.0,
-                        ),
+                      H5(
+                        text: "correo@correo.com",
+                        color: BrandColor.cWhiteColor,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_drop_down,
-                        color: cWhiteColor,
-                        //size: cHeight * 0.04,
+                        color: BrandColor.cWhiteColor,
                       ),
                     ],
                   ),
@@ -224,92 +220,77 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.person,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                       size: 30.0,
                     ),
-                    title: Text(
-                      "Mi Perfil",
-                      style: TextStyle(
-                        color: cGreyColor,
-                        fontSize: 16.0,
-                      ),
+                    title: H4(
+                      text: "Mi Perfil",
+                      color: BrandColor.cGreyColor,
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     indent: 20.0,
                     endIndent: 20.0,
-                    color: cGreyColor,
+                    color: BrandColor.cGreyColor,
                     thickness: 1.0,
                   ),
                   ListTile(
                     dense: true,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.pets,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                       size: 30.0,
                     ),
-                    title: Text(
-                      "Mascotas perdidas",
-                      style: TextStyle(
-                        color: cGreyColor,
-                        fontSize: 16.0,
-                      ),
+                    title: H4(
+                      text: "Mascotas perdidas",
+                      color: BrandColor.cGreyColor,
                     ),
                   ),
                   ListTile(
                     dense: true,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.pets,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                       size: 30.0,
                     ),
-                    title: Text(
-                      "Mascotas en adopción.",
-                      style: TextStyle(
-                        color: cGreyColor,
-                        fontSize: 16.0,
-                      ),
+                    title: H4(
+                      text: "Mascotas en adopción",
+                      color: BrandColor.cGreyColor,
                     ),
                   ),
                   ListTile(
                     dense: true,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.pets,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                       size: 30.0,
                     ),
-                    title: Text(
-                      "Animales Rescatados",
-                      style: TextStyle(
-                        color: cGreyColor,
-                        fontSize: 16.0,
-                      ),
+                    title: H4(
+                      text: "Animales Rescatados",
+                      color: BrandColor.cGreyColor,
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: SizedBox(),
                   ),
-                  Divider(
+                  const Divider(
                     indent: 20.0,
                     endIndent: 20.0,
-                    color: cGreyColor,
+                    color: BrandColor.cGreyColor,
                     thickness: 1.0,
                   ),
                   ListTile(
                     dense: true,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.logout_rounded,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                       size: 30.0,
                     ),
-                    title: Text(
-                      "Cerrar sesión",
-                      style: TextStyle(
-                        color: cGreyColor,
-                        fontSize: 16.0,
-                      ),
+                    title: H4(
+                      text: "Cerrar sesión",
+                      color: BrandColor.cGreyColor,
                     ),
                   ),
                 ],
@@ -322,48 +303,37 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: Column(
             children: [
-              SizedBox(
-                height: 12.0,
+              spacing12,
+              H4(
+                text: "Notificaciones",
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                "Notificaciones",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 12.0,
-              ),
+              spacing12,
               Container(
-                color: cBlueColor.withOpacity(0.2),
+                color: BrandColor.cBlueColor.withOpacity(0.2),
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     vertical: 8.0,
                     horizontal: 8.0,
                   ),
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundImage: NetworkImage(
                       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                     ),
-                    //radius: 28,
                   ),
-                  title: Text(
-                    "Mascotas perdidas",
-                    style: TextStyle(
-                      color: cGreyColor,
-                      fontSize: 16.0,
-                    ),
+                  title: H4(
+                    text: "Mascotas perdidas",
+                    color: BrandColor.cGreyColor,
                   ),
-                  subtitle: Text(
-                    "Nuevo reporte de tu mascota.",
+                  subtitle: H5(
+                    text: "Nuevo reporte de tu mascota.",
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    textOverflow: TextOverflow.ellipsis,
                   ),
                   trailing: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.delete,
-                      color: cGreyColor,
+                      color: BrandColor.cGreyColor,
                     ),
                     onPressed: () {},
                   ),

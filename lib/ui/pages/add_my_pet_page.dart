@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
 import 'package:pry_mascotas/utils/constants.dart';
 
 class AddMyPetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cWhiteColor,
+      backgroundColor: BrandColor.cWhiteColor,
       appBar: AppBar(
-        title: Text(
-          "Nueva Mascota",
+        title: H5(
+          text: "Nueva Mascota",
         ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -28,15 +28,15 @@ class AddMyPetPage extends StatelessWidget {
                 hintText: "Nombre",
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: BorderSide(
-                    color: cBlueColor,
+                  borderSide: const BorderSide(
+                    color: BrandColor.cBlueColor,
                     width: 1.0,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: BorderSide(
-                    color: cBlueColor,
+                  borderSide: const BorderSide(
+                    color: BrandColor.cBlueColor,
                     width: 1.0,
                   ),
                 ),
@@ -47,15 +47,15 @@ class AddMyPetPage extends StatelessWidget {
                 hintText: "Edad",
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: BorderSide(
-                    color: cBlueColor,
+                  borderSide: const BorderSide(
+                    color: BrandColor.cBlueColor,
                     width: 1.0,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: BorderSide(
-                    color: cBlueColor,
+                  borderSide: const BorderSide(
+                    color: BrandColor.cBlueColor,
                     width: 1.0,
                   ),
                 ),

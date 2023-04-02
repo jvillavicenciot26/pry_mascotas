@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
 
 class CommonInformationPetWidget extends StatelessWidget {
@@ -22,23 +24,15 @@ class CommonInformationPetWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: color,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
+          H4(
+            text: title,
+            color: color,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Text(
-            data,
-            style: TextStyle(
-              color: color,
-              fontSize: 16.0,
-            ),
+          spacing16,
+          H5(
+            text: data,
+            color: color,
           ),
         ],
       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-const Color cWhiteColor = Colors.white;
-const Color cBlueColor = Color(0xff064BB5);
-const Color cGreenColor = Color(0xffBCFF5E);
-const Color cRedColor = Colors.red;
-const Color cGreyColor = Color(0xff4A4A4A);
-const Color cBlackColor = Colors.black;
+class BrandColor {
+  static const Color cWhiteColor = Colors.white;
+  static const Color cBlueColor = Color(0xff064BB5);
+  static const Color cGreenColor = Color(0xffBCFF5E);
+  static const Color cRedColor = Colors.red;
+  static const Color cGreyColor = Color(0xff4A4A4A);
+  static const Color cBlackColor = Colors.black;
+}

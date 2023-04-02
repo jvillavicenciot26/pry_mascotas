@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/specific_pet_page.dart';
+import 'package:pry_mascotas/ui/pages/specific_pet_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ItemAllPetLostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -18,11 +20,11 @@ class ItemAllPetLostWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: cWhiteColor,
+          color: BrandColor.cWhiteColor,
           borderRadius: BorderRadius.circular(lCircularBorder),
           boxShadow: [
             BoxShadow(
-              color: cGreyColor.withOpacity(0.2),
+              color: BrandColor.cGreyColor.withOpacity(0.2),
               offset: const Offset(3, 3),
               blurRadius: 5.0,
             ),
@@ -34,7 +36,7 @@ class ItemAllPetLostWidget extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               children: [
                 Container(
-                  height: cHeight * 0.22,
+                  height: ResponsiveUI.pHeight(context, 0.22), //cHeight * 0.22,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(lCircularBorder),
@@ -50,13 +52,10 @@ class ItemAllPetLostWidget extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(10.0),
-                  color: cGreenColor.withOpacity(0.7),
-                  child: const Text(
-                    "3 años",
-                    style: TextStyle(
-                      color: cGreyColor,
-                      fontSize: 18.0,
-                    ),
+                  color: BrandColor.cGreenColor.withOpacity(0.7),
+                  child: H4(
+                    text: "3 años",
+                    color: BrandColor.cGreyColor,
                   ),
                 ),
               ],
@@ -71,18 +70,13 @@ class ItemAllPetLostWidget extends StatelessWidget {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Bobby",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                        children: [
+                          H3(
+                            text: "Bobby",
+                            color: BrandColor.cBlackColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(
-                            height: 3,
-                          ),
+                          spacing4,
                         ],
                       ),
                       const Icon(
@@ -91,27 +85,19 @@ class ItemAllPetLostWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  const Text(
-                    "Esto es una prueba de descripcion que podria tener errores. Por eso estamos trabajando.",
+                  spacing4,
+                  H5(
+                    text:
+                        "Esto es una prueba de descripcion que podria tener errores. Por eso estamos trabajando.",
+                    fontWeight: FontWeight.w300,
                     maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                    ),
+                    textOverflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  const Text(
-                    "4 días",
-                    style: TextStyle(
-                      color: cRedColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
+                  spacing6,
+                  H4(
+                    text: "4 días",
+                    color: BrandColor.cRedColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ],
               ),

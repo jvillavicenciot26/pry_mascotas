@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
-import 'package:pry_mascotas/widgets/common_button_widget.dart';
-import 'package:pry_mascotas/widgets/common_circular_button_widget.dart';
-import 'package:pry_mascotas/widgets/common_information_pet_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_circular_button_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_information_pet_widget.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class SpecificPet extends StatelessWidget {
   String origin;
@@ -14,16 +19,16 @@ class SpecificPet extends StatelessWidget {
     double cHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: cWhiteColor,
+      backgroundColor: BrandColor.cWhiteColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundColor: cWhiteColor.withOpacity(0.25),
+            backgroundColor: BrandColor.cWhiteColor.withOpacity(0.25),
             child: const BackButton(
-              color: cWhiteColor,
+              color: BrandColor.cWhiteColor,
             ),
           ),
         ), //
@@ -32,7 +37,7 @@ class SpecificPet extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            height: cHeight * 0.5,
+            height: ResponsiveUI.pHeight(context, 0.5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(lCircularBorder),
@@ -58,32 +63,26 @@ class SpecificPet extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Tobby",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                            ),
+                          H1(
+                            text: "Tobby",
+                            color: BrandColor.cBlackColor,
                           ),
-                          const SizedBox(
-                            height: 4.0,
-                          ),
+                          spacing4,
                           Row(
-                            children: const [
-                              Icon(
+                            children: [
+                              const Icon(
                                 Icons.location_pin,
                                 size: 18.0,
                               ),
-                              Text(
-                                "Trujillo - Perú",
+                              H5(
+                                text: "Trujillo - Perú",
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const Text(
-                        "20/12/2022",
+                      H5(
+                        text: "20/12/2022",
                       ),
                     ],
                   ),
@@ -94,28 +93,26 @@ class SpecificPet extends StatelessWidget {
                       CommonInformationPetWidget(
                         title: "Genero",
                         data: "Macho",
-                        color: cBlueColor,
+                        color: BrandColor.cBlueColor,
                       ),
                       CommonInformationPetWidget(
                         title: "Edad",
                         data: "2 años",
-                        color: cGreenColor,
+                        color: BrandColor.cGreenColor,
                       ),
                       CommonInformationPetWidget(
                         title: "Tiempo",
                         data: "4 dias",
-                        color: cRedColor,
+                        color: BrandColor.cRedColor,
                       ),
                     ],
                   ),
                   const Expanded(child: SizedBox()),
-                  const Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+                  H4(
+                    text:
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
                     maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
+                    textOverflow: TextOverflow.ellipsis,
                   ),
                   const Expanded(child: SizedBox()),
                   Row(
@@ -124,23 +121,21 @@ class SpecificPet extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            radius: cHeight * 0.03,
+                            radius: ResponsiveUI.pHeight(context, 0.03),
                             backgroundImage: const NetworkImage(
                               "https://images.pexels.com/photos/13688472/pexels-photo-13688472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                             ),
                           ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
+                          spacing10Width,
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Nombre de persona",
+                            children: [
+                              H5(
+                                text: "Nombre de persona",
                               ),
-                              Text(
-                                "Dueño",
+                              H5(
+                                text: "Dueño",
                               ),
                             ],
                           ),
@@ -149,7 +144,7 @@ class SpecificPet extends StatelessWidget {
                       Row(
                         children: [
                           CommonCircularButtonWidget(
-                            color: cGreenColor,
+                            color: BrandColor.cGreenColor,
                             icon: Icons.message_outlined,
                             fHeight: 0.03,
                             onTap: () {},
@@ -158,7 +153,7 @@ class SpecificPet extends StatelessWidget {
                             width: 10.0,
                           ),
                           CommonCircularButtonWidget(
-                            color: cBlueColor,
+                            color: BrandColor.cBlueColor,
                             icon: Icons.location_on_outlined,
                             fHeight: 0.03,
                             onTap: () {},
@@ -175,16 +170,16 @@ class SpecificPet extends StatelessWidget {
                             Expanded(
                               child: CommonButtonWiget(
                                 label: "Encontrado",
-                                backColor: cBlueColor,
-                                textColor: cWhiteColor,
+                                backColor: BrandColor.cBlueColor,
+                                textColor: BrandColor.cWhiteColor,
                                 onPressed: () {},
                               ),
                             ),
                             Expanded(
                               child: CommonButtonWiget(
                                 label: "Visto",
-                                backColor: cGreenColor,
-                                textColor: cBlackColor,
+                                backColor: BrandColor.cGreenColor,
+                                textColor: BrandColor.cBlackColor,
                                 onPressed: () {},
                               ),
                             ),
@@ -193,8 +188,8 @@ class SpecificPet extends StatelessWidget {
                             Expanded(
                               child: CommonButtonWiget(
                                 label: origin == "A" ? "Adoptame" : "Ayudame",
-                                backColor: cBlueColor,
-                                textColor: cWhiteColor,
+                                backColor: BrandColor.cBlueColor,
+                                textColor: BrandColor.cWhiteColor,
                                 onPressed: () {},
                                 origin: origin,
                               ),

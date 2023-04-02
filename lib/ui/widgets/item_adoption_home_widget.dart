@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/pages/specific_pet_page.dart';
+import 'package:pry_mascotas/ui/pages/specific_pet_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ItemAdoptionHomeWidget extends StatelessWidget {
   String name;
@@ -16,8 +19,6 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cWidth = MediaQuery.of(context).size.width;
-    double cHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -28,14 +29,14 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
         );
       },
       child: Container(
-        width: cWidth * 0.82,
+        width: ResponsiveUI.pWidth(context, 0.82), //cWidth * 0.82,
         margin: const EdgeInsets.only(right: 15.0, bottom: 10.0),
         decoration: BoxDecoration(
-          color: cWhiteColor,
+          color: BrandColor.cWhiteColor,
           borderRadius: BorderRadius.circular(lCircularBorder),
           boxShadow: [
             BoxShadow(
-              color: cGreyColor.withOpacity(0.2),
+              color: BrandColor.cGreyColor.withOpacity(0.2),
               offset: const Offset(3, 3),
               blurRadius: 5.0,
             )
@@ -45,8 +46,8 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
           //mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: cHeight * 0.2,
-              width: cWidth * 0.45, //0.48,
+              height: ResponsiveUI.pHeight(context, 0.2), //cHeight * 0.2,
+              width: ResponsiveUI.pWidth(context, 0.45), //cWidth * 0.45
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(lCircularBorder),
@@ -67,69 +68,54 @@ class ItemAdoptionHomeWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          "Soy:",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        H5(
+                          text: "Soy:",
+                          color: BrandColor.cBlackColor,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text(
-                          name,
-                          style: const TextStyle(
-                            color: cGreyColor,
-                          ),
+                        H5(
+                          text: name,
+                          color: BrandColor.cGreyColor,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
+                    spacing4,
                     Row(
                       children: [
-                        const Text(
-                          "Tengo:",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        H5(
+                          text: "Tengo:",
+                          color: BrandColor.cBlackColor,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text(
-                          "$age años",
-                          style: const TextStyle(
-                            color: cGreyColor,
-                          ),
+                        H5(
+                          text: "$age años",
+                          color: BrandColor.cGreyColor,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    spacing10,
                     SizedBox(
-                      width: cWidth * 0.3,
-                      child: Text(
-                        description,
+                      width:
+                          ResponsiveUI.pWidth(context, 0.3), ////cWidth * 0.3,
+                      child: H5(
+                        text: description,
+                        textOverflow: TextOverflow.ellipsis,
                         maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: cGreyColor,
-                        ),
+                        color: BrandColor.cGreyColor,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    spacing10,
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         Icon(
                           Icons.female,
-                          color: cGreyColor,
+                          color: BrandColor.cGreyColor,
                         ),
                         Icon(
                           Icons.message_outlined,
-                          color: cGreyColor,
+                          color: BrandColor.cGreyColor,
                         ),
                       ],
                     ),

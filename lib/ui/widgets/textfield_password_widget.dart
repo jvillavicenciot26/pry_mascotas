@@ -14,17 +14,17 @@ class _TextFielPasswordWidgetState extends State<TextFielPasswordWidget> {
   Widget build(BuildContext context) {
     return TextField(
       obscureText: isInvisible,
-      cursorColor: cBlueColor,
+      cursorColor: BrandColor.cBlueColor,
       decoration: InputDecoration(
         hintText: "Clave",
         prefixIcon: const Icon(
           Icons.key,
-          color: cGreyColor,
+          color: BrandColor.cGreyColor,
         ),
         suffixIcon: IconButton(
           icon: Icon(
             isInvisible ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
-            color: cGreyColor.withOpacity(0.4),
+            color: BrandColor.cGreyColor.withOpacity(0.4),
           ),
           onPressed: () {
             isInvisible = !isInvisible;
@@ -32,8 +32,8 @@ class _TextFielPasswordWidgetState extends State<TextFielPasswordWidget> {
           },
         ),
         filled: true,
-        fillColor: cWhiteColor,
-        contentPadding: EdgeInsets.symmetric(
+        fillColor: BrandColor.cWhiteColor,
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 12.0,
           vertical: 14.0,
         ),

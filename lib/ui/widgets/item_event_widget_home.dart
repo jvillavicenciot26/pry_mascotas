@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/pages/detail_event_page.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
-import 'package:pry_mascotas/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/ui/widgets/common_button_widget.dart';
+import 'package:pry_mascotas/utils/responsive.dart';
 
 class ItemEventHomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double cHeight = MediaQuery.of(context).size.height;
     return Container(
       //height: cHeight * 0.35,
       width: double.infinity,
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: cWhiteColor,
+        color: BrandColor.cWhiteColor,
         borderRadius: BorderRadius.circular(lCircularBorder),
         boxShadow: [
           BoxShadow(
-            color: cGreyColor.withOpacity(0.2),
+            color: BrandColor.cGreyColor.withOpacity(0.2),
             offset: const Offset(3, 3),
             blurRadius: 5.0,
           )
@@ -26,7 +29,7 @@ class ItemEventHomeWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: cHeight * 0.21,
+            height: ResponsiveUI.pHeight(context, 0.21), //cHeight * 0.21,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -47,53 +50,47 @@ class ItemEventHomeWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "jue, 23 feb 2023",
-                  style: TextStyle(
-                    color: cGreyColor,
-                  ),
+                H5(
+                  text: "jue, 23 feb 2023",
+                  color: BrandColor.cGreyColor,
                 ),
-                const SizedBox(
-                  height: 6.0,
+                spacing6,
+                H3(
+                  text: "Mascoting - Barcelona",
+                  color: BrandColor.cBlackColor,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Text(
-                  "Mascoting - Barcelona",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
+                spacing10,
                 Row(
                   children: [
                     Expanded(
                       child: CommonButtonWiget(
                         label: "Detalles",
-                        onPressed: () {},
-                        backColor: cWhiteColor,
-                        textColor: cBlueColor,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailEventPage(),
+                            ),
+                          );
+                        },
+                        backColor: BrandColor.cWhiteColor,
+                        textColor: BrandColor.cBlueColor,
                         withBorder: true,
-                        borderColor: cBlueColor,
+                        borderColor: BrandColor.cBlueColor,
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    spacing20,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Trujillo - Peru",
-                          style: TextStyle(
-                            color: cGreyColor,
-                          ),
+                      children: [
+                        H5(
+                          text: "Trujillo - Peru",
+                          color: BrandColor.cGreyColor,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.location_on,
-                          color: cGreyColor,
+                          color: BrandColor.cGreyColor,
                         ),
                       ],
                     ),
