@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "8736852721-fkvklc31niht9dc138470bo20qthi93m.apps.googleusercontent.com",
+          "client_id": "8736852721-msk8fftk0i9f8j8ug6pbpffg6kg667db.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mision.patitas.pe",
+            "certificate_hash": "90c7e8a2b4cf29227a05881fd60095d94035a533"
+          }
+        },
+        {
+          "client_id": "8736852721-pjjbv4ikvgn32jblicj786mnfj7db8t2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

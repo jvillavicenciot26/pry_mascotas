@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/utils/constants.dart';
 
 SizedBox spacing2 = const SizedBox(height: 2);
 SizedBox spacing4 = const SizedBox(height: 4);
@@ -30,3 +33,21 @@ Center loadingWidget = const Center(
     ),
   ),
 );
+
+SnackBar snackBarError(String message) => SnackBar(
+      backgroundColor: BrandColor.cRedColor,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(lCircularBorder),
+      ),
+      content: Row(
+        children: [
+          Expanded(
+            child: H5(
+              text: message,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/ui/widgets/common_text.dart';
+import 'package:pry_mascotas/ui/widgets/common_widget.dart';
+import 'package:pry_mascotas/ui/widgets/textfield_common_widget.dart';
 import 'package:pry_mascotas/utils/constants.dart';
+import 'package:pry_mascotas/utils/types.dart';
 
 class AddMyPetPage extends StatelessWidget {
   @override
@@ -9,8 +12,9 @@ class AddMyPetPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: BrandColor.cWhiteColor,
       appBar: AppBar(
-        title: H5(
+        title: H4(
           text: "Nueva Mascota",
+          color: BrandColor.cWhiteColor,
         ),
         actions: [
           IconButton(
@@ -23,44 +27,22 @@ class AddMyPetPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Nombre",
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: const BorderSide(
-                    color: BrandColor.cBlueColor,
-                    width: 1.0,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: const BorderSide(
-                    color: BrandColor.cBlueColor,
-                    width: 1.0,
-                  ),
-                ),
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Edad",
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: const BorderSide(
-                    color: BrandColor.cBlueColor,
-                    width: 1.0,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(lCircularBorder),
-                  borderSide: const BorderSide(
-                    color: BrandColor.cBlueColor,
-                    width: 1.0,
-                  ),
-                ),
-              ),
-            ),
+            // TextFieldCommonWidget(
+            //   hintText: "Nombre",
+            //   icon: const Icon(
+            //     Icons.pets,
+            //   ),
+            //   type: InputType.text,
+            // ),
+            // spacing10,
+            // TextFieldCommonWidget(
+            //   hintText: "Edad",
+            //   icon: const Icon(
+            //     Icons.pets,
+            //   ),
+            //   type: InputType.dni,
+            // ),
+            // spacing10,
           ],
         ),
       ),

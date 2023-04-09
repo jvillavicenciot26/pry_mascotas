@@ -7,15 +7,19 @@ class TextFieldCommonWidget extends StatelessWidget {
   String hintText;
   Icon icon;
   InputType type;
+  TextEditingController controller = TextEditingController();
+
   TextFieldCommonWidget({
     required this.hintText,
     required this.icon,
     required this.type,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      controller: controller,
       cursorColor: BrandColor.cBlueColor,
       keyboardType: type == InputType.dni || type == InputType.phone
           ? TextInputType.number
@@ -23,6 +27,10 @@ class TextFieldCommonWidget extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: icon,
+        errorStyle: const TextStyle(
+          color: BrandColor.cRedColor,
+          fontWeight: FontWeight.bold,
+        ),
         filled: true,
         fillColor: BrandColor.cWhiteColor,
         contentPadding: const EdgeInsets.symmetric(
@@ -37,7 +45,22 @@ class TextFieldCommonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(lCircularBorder),
           borderSide: BorderSide.none,
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(lCircularBorder),
+          borderSide: BorderSide.none,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(lCircularBorder),
+          borderSide: BorderSide.none,
+        ),
       ),
+      validator: (String? value) {
+        if (value != null && value.isEmpty) {
+          return "Campo Obligatorio";
+          //return null;
+        }
+        return null;
+      },
     );
   }
 }

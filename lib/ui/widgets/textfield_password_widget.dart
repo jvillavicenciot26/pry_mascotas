@@ -3,6 +3,8 @@ import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/utils/constants.dart';
 
 class TextFielPasswordWidget extends StatefulWidget {
+  TextEditingController controller = TextEditingController();
+  TextFielPasswordWidget({required this.controller});
   @override
   State<TextFielPasswordWidget> createState() => _TextFielPasswordWidgetState();
 }
@@ -12,7 +14,8 @@ class _TextFielPasswordWidgetState extends State<TextFielPasswordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      controller: widget.controller,
       obscureText: isInvisible,
       cursorColor: BrandColor.cBlueColor,
       decoration: InputDecoration(
@@ -45,7 +48,21 @@ class _TextFielPasswordWidgetState extends State<TextFielPasswordWidget> {
           borderRadius: BorderRadius.circular(lCircularBorder),
           borderSide: BorderSide.none,
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(lCircularBorder),
+          borderSide: BorderSide.none,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(lCircularBorder),
+          borderSide: BorderSide.none,
+        ),
       ),
+      validator: (String? value) {
+        if (value != null && value.isEmpty) {
+          return "Campo obligatorio";
+        }
+        return null;
+      },
     );
   }
 }

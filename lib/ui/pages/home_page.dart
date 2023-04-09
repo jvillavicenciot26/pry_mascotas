@@ -143,17 +143,17 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextFieldCommonWidget(
-            hintText: "Buscar",
-            icon: const Icon(
-              Icons.search,
-              color: BrandColor.cGreyColor,
-            ),
-            type: InputType.text,
-          ),
-        ),
+        // title: Padding(
+        //   padding: const EdgeInsets.all(16.0),
+        //   child: TextFieldCommonWidget(
+        //     hintText: "Buscar",
+        //     icon: const Icon(
+        //       Icons.search,
+        //       color: BrandColor.cGreyColor,
+        //     ),
+        //     type: InputType.text,
+        //   ),
+        // ),
         actions: [
           Builder(
             builder: (BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
+import 'package:pry_mascotas/ui/pages/add_my_pet_page.dart';
 import 'package:pry_mascotas/ui/widgets/common_text.dart';
 import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/ui/widgets/row_options_home_widget.dart';
@@ -108,7 +109,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   spacing10,
                   RowOptionsHomeWidget(
-                      section: "Mis Mascotas", onTap: () {}, option: "Agregar"),
+                    section: "Mis Mascotas",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddMyPetPage(),
+                        ),
+                      );
+                    },
+                    option: "Agregar",
+                  ),
                   spacing10,
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
