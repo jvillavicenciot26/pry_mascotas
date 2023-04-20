@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/ui/widgets/common_text.dart';
@@ -16,7 +14,6 @@ class SpecificPet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: BrandColor.cWhiteColor,

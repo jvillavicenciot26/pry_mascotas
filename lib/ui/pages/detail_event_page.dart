@@ -67,7 +67,7 @@ class DetailEventPage extends StatelessWidget {
                         borderRadius:
                             BorderRadius.circular(lCircularBorder - 15),
                         child: Container(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           color: BrandColor.cBlueColor,
                           child: Column(
                             children: [
@@ -115,7 +115,7 @@ class DetailEventPage extends StatelessWidget {
                   ListTile(
                     minLeadingWidth: 0,
                     horizontalTitleGap: 0,
-                    contentPadding: EdgeInsets.all(0),
+                    contentPadding: const EdgeInsets.all(0),
                     leading: const Icon(
                       Icons.location_on,
                     ),

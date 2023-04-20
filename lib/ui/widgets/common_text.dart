@@ -10,6 +10,7 @@ class BaseText extends StatelessWidget {
   int? maxLines;
   TextOverflow? textOverflow;
   TextDecoration? textDecoration;
+  TextAlign? textAlign;
 
   BaseText({
     required this.text,
@@ -20,6 +21,7 @@ class BaseText extends StatelessWidget {
     this.maxLines,
     this.textOverflow,
     this.textDecoration,
+    this.textAlign,
   });
 
   @override
@@ -28,6 +30,7 @@ class BaseText extends StatelessWidget {
       text,
       maxLines: maxLines,
       overflow: textOverflow,
+      textAlign: textAlign,
       style: TextStyle(
         fontSize: fontSize,
         color: color ?? BrandColor.cBlackColor,
@@ -114,6 +117,7 @@ class H4 extends StatelessWidget {
   FontWeight? fontWeight;
   int? maxLines;
   TextOverflow? textOverflow;
+  TextAlign? textAlign;
 
   H4({
     required this.text,
@@ -122,6 +126,7 @@ class H4 extends StatelessWidget {
     this.fontWeight,
     this.maxLines,
     this.textOverflow,
+    this.textAlign,
   });
   @override
   Widget build(BuildContext context) {
@@ -133,6 +138,7 @@ class H4 extends StatelessWidget {
       height: height,
       maxLines: maxLines,
       textOverflow: textOverflow,
+      textAlign: textAlign,
     );
   }
 }
@@ -144,6 +150,8 @@ class H5 extends StatelessWidget {
   int? maxLines;
   TextOverflow? textOverflow;
   FontWeight? fontWeight;
+  TextAlign? textAlign;
+
   H5({
     required this.text,
     this.color,
@@ -151,7 +159,9 @@ class H5 extends StatelessWidget {
     this.maxLines,
     this.textOverflow,
     this.fontWeight,
+    this.textAlign,
   });
+
   @override
   Widget build(BuildContext context) {
     return BaseText(
@@ -162,6 +172,7 @@ class H5 extends StatelessWidget {
       height: height,
       maxLines: maxLines,
       textOverflow: textOverflow,
+      textAlign: textAlign,
     );
   }
 }

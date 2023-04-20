@@ -13,4 +13,6 @@ class AssetData {
   static const imageSalud = "assets/images/salud.png";
   static const imageGoogle = "assets/images/google.png";
   static const imagFacebook = "assets/images/facebook.png";
+
+  static const iconUser = "assets/icons/user.svg";
 }

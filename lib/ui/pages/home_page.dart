@@ -1,4 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:pry_mascotas/provider/user_provider.dart';
+import 'package:pry_mascotas/services/local/sp_global.dart';
 import 'package:pry_mascotas/ui/pages/events_page.dart';
 import 'package:pry_mascotas/ui/pages/map_page.dart';
 import 'package:pry_mascotas/ui/pages/pets_page.dart';
@@ -9,8 +14,6 @@ import 'package:pry_mascotas/ui/widgets/common_text.dart';
 import 'package:pry_mascotas/ui/widgets/common_widget.dart';
 import 'package:pry_mascotas/utils/asset_data.dart';
 import 'package:pry_mascotas/utils/responsive.dart';
-import 'package:pry_mascotas/utils/types.dart';
-import 'package:pry_mascotas/ui/widgets/textfield_common_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,6 +26,17 @@ class _HomePageState extends State<HomePage> {
     PetsPage(),
     EventsPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      userProvider.getUserbyId(SPGlobal().id);
+      userProvider.getPetsbyUser(SPGlobal().id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,34 +191,62 @@ class _HomePageState extends State<HomePage> {
               decoration: const BoxDecoration(
                 color: BrandColor.cBlueColor,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                    ),
-                    radius: 35,
-                  ),
-                  spacing16,
-                  H3(
-                    text: "Nombre Apellido",
-                    color: BrandColor.cWhiteColor,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Consumer<UserProvider>(
+                builder: (context, provider, _) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      H5(
-                        text: "correo@correo.com",
+                      CircleAvatar(
+                        radius: 35,
+                        child: provider.userModel!.imagen.isEmpty
+                            ? SvgPicture.asset(
+                                AssetData.iconUser,
+                                color: BrandColor.cBlueColor,
+                                width: ResponsiveUI.pWidth(context, 0.2),
+                              )
+                            : Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: provider.userModel!.imagen,
+                                  fit: BoxFit.fill,
+                                  errorWidget: (context, url, error) {
+                                    return SvgPicture.asset(
+                                      AssetData.iconUser,
+                                      color: BrandColor.cBlueColor,
+                                      width: ResponsiveUI.pWidth(context, 0.2),
+                                    );
+                                  },
+                                  progressIndicatorBuilder:
+                                      (context, url, progress) {
+                                    return loadingWidget;
+                                  },
+                                ),
+                              ),
+                      ),
+                      spacing16,
+                      H3(
+                        text: provider.userModel!.nombre ?? "Nombre Apellido",
                         color: BrandColor.cWhiteColor,
                       ),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        color: BrandColor.cWhiteColor,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          H5(
+                            text: provider.userModel!.email ??
+                                "correo@correo.com",
+                            color: BrandColor.cWhiteColor,
+                          ),
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            color: BrandColor.cWhiteColor,
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
             Expanded(
