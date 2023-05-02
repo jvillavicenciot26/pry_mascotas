@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pry_mascotas/models/pet_model.dart';
+import 'package:pry_mascotas/models/species_model.dart';
 import 'package:pry_mascotas/models/user_model.dart';
 import 'package:pry_mascotas/services/local/sp_global.dart';
 
@@ -58,10 +59,10 @@ class FirestoreService {
   }
 
   Future<List<String>> getSpecieyRaza(String idEspecie, int idRaza) async {
-    CollectionReference userReference =
+    CollectionReference specieRazaReference =
         FirebaseFirestore.instance.collection("especies");
 
-    DocumentSnapshot doc = await userReference.doc(idEspecie).get();
+    DocumentSnapshot doc = await specieRazaReference.doc(idEspecie).get();
     List<String> data = [];
     if (doc.exists) {
       Map<String, dynamic> especie = doc.data() as Map<String, dynamic>;
@@ -69,6 +70,23 @@ class FirestoreService {
       data.add(especie["razas"][idRaza]);
     }
     return data;
+  }
+
+  Future<List<EspeciesRazasModel>> getAllSpeciesRaza() async {
+    CollectionReference allSpecieRaza =
+        FirebaseFirestore.instance.collection("especies");
+
+    QuerySnapshot collection = await allSpecieRaza.get();
+    List<QueryDocumentSnapshot> docs = collection.docs;
+    List<EspeciesRazasModel> especiesRazas = [];
+    for (QueryDocumentSnapshot item in docs) {
+      //print(item.data() as Map<String, dynamic>);
+      EspeciesRazasModel especieRaza =
+          EspeciesRazasModel.fromJson(item.data() as Map<String, dynamic>);
+      especieRaza.idespecie = item.id;
+      especiesRazas.add(especieRaza);
+    }
+    return especiesRazas;
   }
 
   Future<String> registerUser(UserModel model) async {

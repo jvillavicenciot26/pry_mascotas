@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:pry_mascotas/provider/user_provider.dart';
+import 'package:pry_mascotas/bloc/home/home_bloc.dart';
+import 'package:pry_mascotas/bloc/home/home_event.dart';
+import 'package:pry_mascotas/bloc/home/home_state.dart';
+import 'package:pry_mascotas/bloc/login/login_bloc.dart';
+import 'package:pry_mascotas/bloc/login/login_event.dart';
 import 'package:pry_mascotas/services/local/sp_global.dart';
 import 'package:pry_mascotas/ui/pages/events_page.dart';
 import 'package:pry_mascotas/ui/pages/map_page.dart';
@@ -31,10 +35,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
-      userProvider.getUserbyId(SPGlobal().id);
-      userProvider.getPetsbyUser(SPGlobal().id);
+      BlocProvider.of<HomeBloc>(context)
+          .add(HomeGetProfileEvent(id: SPGlobal().id));
     });
   }
 
@@ -184,162 +186,175 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: BrandColor.cBlueColor,
-              ),
-              child: Consumer<UserProvider>(
-                builder: (context, provider, _) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 35,
-                        child: provider.userModel!.imagen.isEmpty
-                            ? SvgPicture.asset(
-                                AssetData.iconUser,
-                                color: BrandColor.cBlueColor,
-                                width: ResponsiveUI.pWidth(context, 0.2),
-                              )
-                            : Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: provider.userModel!.imagen,
-                                  fit: BoxFit.fill,
-                                  errorWidget: (context, url, error) {
-                                    return SvgPicture.asset(
-                                      AssetData.iconUser,
-                                      color: BrandColor.cBlueColor,
-                                      width: ResponsiveUI.pWidth(context, 0.2),
-                                    );
-                                  },
-                                  progressIndicatorBuilder:
-                                      (context, url, progress) {
-                                    return loadingWidget;
-                                  },
-                                ),
-                              ),
-                      ),
-                      spacing16,
-                      H3(
-                        text: provider.userModel!.nombre ?? "Nombre Apellido",
-                        color: BrandColor.cWhiteColor,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          H5(
-                            text: provider.userModel!.email ??
-                                "correo@correo.com",
-                            color: BrandColor.cWhiteColor,
-                          ),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                            color: BrandColor.cWhiteColor,
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            Expanded(
+      drawer: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          print(state);
+          if (state is HomeInitState || state is HomeLoadingState) {
+            return loadingWidget;
+          } else if (state is HomeGetProfileState) {
+            return Drawer(
               child: Column(
                 children: [
-                  ListTile(
-                    dense: true,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
+                  DrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: BrandColor.cBlueColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 35,
+                          child: state.userModel!.imagen.isEmpty
+                              ? SvgPicture.asset(
+                                  AssetData.iconUser,
+                                  color: BrandColor.cBlueColor,
+                                  width: ResponsiveUI.pWidth(context, 0.2),
+                                )
+                              : Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: state.userModel!.imagen,
+                                    fit: BoxFit.fill,
+                                    errorWidget: (context, url, error) {
+                                      return SvgPicture.asset(
+                                        AssetData.iconUser,
+                                        color: BrandColor.cBlueColor,
+                                        width:
+                                            ResponsiveUI.pWidth(context, 0.2),
+                                      );
+                                    },
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) {
+                                      return loadingWidget;
+                                    },
+                                  ),
+                                ),
                         ),
-                      );
-                    },
-                    leading: const Icon(
-                      Icons.person,
-                      color: BrandColor.cGreyColor,
-                      size: 30.0,
-                    ),
-                    title: H4(
-                      text: "Mi Perfil",
-                      color: BrandColor.cGreyColor,
-                    ),
-                  ),
-                  const Divider(
-                    indent: 20.0,
-                    endIndent: 20.0,
-                    color: BrandColor.cGreyColor,
-                    thickness: 1.0,
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Icon(
-                      Icons.pets,
-                      color: BrandColor.cGreyColor,
-                      size: 30.0,
-                    ),
-                    title: H4(
-                      text: "Mascotas perdidas",
-                      color: BrandColor.cGreyColor,
+                        spacing16,
+                        H3(
+                          text: state.userModel!.nombre ?? "Nombre Apellido",
+                          color: BrandColor.cWhiteColor,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            H5(
+                              text:
+                                  state.userModel!.email ?? "correo@correo.com",
+                              color: BrandColor.cWhiteColor,
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              color: BrandColor.cWhiteColor,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  ListTile(
-                    dense: true,
-                    leading: const Icon(
-                      Icons.pets,
-                      color: BrandColor.cGreyColor,
-                      size: 30.0,
-                    ),
-                    title: H4(
-                      text: "Mascotas en adopción",
-                      color: BrandColor.cGreyColor,
-                    ),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Icon(
-                      Icons.pets,
-                      color: BrandColor.cGreyColor,
-                      size: 30.0,
-                    ),
-                    title: H4(
-                      text: "Animales Rescatados",
-                      color: BrandColor.cGreyColor,
-                    ),
-                  ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  const Divider(
-                    indent: 20.0,
-                    endIndent: 20.0,
-                    color: BrandColor.cGreyColor,
-                    thickness: 1.0,
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Icon(
-                      Icons.logout_rounded,
-                      color: BrandColor.cGreyColor,
-                      size: 30.0,
-                    ),
-                    title: H4(
-                      text: "Cerrar sesión",
-                      color: BrandColor.cGreyColor,
+                  Expanded(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          dense: true,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(),
+                              ),
+                            );
+                          },
+                          leading: const Icon(
+                            Icons.person,
+                            color: BrandColor.cGreyColor,
+                            size: 30.0,
+                          ),
+                          title: H4(
+                            text: "Mi Perfil",
+                            color: BrandColor.cGreyColor,
+                          ),
+                        ),
+                        const Divider(
+                          indent: 20.0,
+                          endIndent: 20.0,
+                          color: BrandColor.cGreyColor,
+                          thickness: 1.0,
+                        ),
+                        ListTile(
+                          dense: true,
+                          leading: const Icon(
+                            Icons.pets,
+                            color: BrandColor.cGreyColor,
+                            size: 30.0,
+                          ),
+                          title: H4(
+                            text: "Mascotas perdidas",
+                            color: BrandColor.cGreyColor,
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
+                          leading: const Icon(
+                            Icons.pets,
+                            color: BrandColor.cGreyColor,
+                            size: 30.0,
+                          ),
+                          title: H4(
+                            text: "Mascotas en adopción",
+                            color: BrandColor.cGreyColor,
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
+                          leading: const Icon(
+                            Icons.pets,
+                            color: BrandColor.cGreyColor,
+                            size: 30.0,
+                          ),
+                          title: H4(
+                            text: "Animales Rescatados",
+                            color: BrandColor.cGreyColor,
+                          ),
+                        ),
+                        const Expanded(
+                          child: SizedBox(),
+                        ),
+                        const Divider(
+                          indent: 20.0,
+                          endIndent: 20.0,
+                          color: BrandColor.cGreyColor,
+                          thickness: 1.0,
+                        ),
+                        ListTile(
+                          onTap: () {
+                            BlocProvider.of<LoginBloc>(context).add(
+                              LogoutEvent(loginType: SPGlobal().loginType),
+                            );
+                          },
+                          dense: true,
+                          leading: const Icon(
+                            Icons.logout_rounded,
+                            color: BrandColor.cGreyColor,
+                            size: 30.0,
+                          ),
+                          title: H4(
+                            text: "Cerrar sesión",
+                            color: BrandColor.cGreyColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
       endDrawer: Drawer(
         child: SafeArea(

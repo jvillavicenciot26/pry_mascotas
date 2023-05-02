@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:pry_mascotas/provider/user_provider.dart';
+import 'package:pry_mascotas/bloc/add_pet/add_pet_bloc.dart';
+import 'package:pry_mascotas/bloc/home/home_bloc.dart';
+import 'package:pry_mascotas/bloc/login/login_bloc.dart';
+import 'package:pry_mascotas/bloc/signup/signup_bloc.dart';
 import 'package:pry_mascotas/services/local/sp_global.dart';
 import 'package:pry_mascotas/ui/pages/home_page.dart';
 import 'package:pry_mascotas/ui/pages/start_page.dart';
@@ -19,9 +22,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserProvider()),
+        BlocProvider(create: (context) => LoginBloc()),
+        BlocProvider(create: (context) => SignupBloc()),
+        BlocProvider(create: (context) => HomeBloc()),
+        BlocProvider(create: (context) => AddPetBloc()),
       ],
       child: MaterialApp(
         title: "Misión Patitas",
@@ -33,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: PreInit(),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
         ],
       ),

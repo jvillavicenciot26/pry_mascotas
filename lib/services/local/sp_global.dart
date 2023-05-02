@@ -20,6 +20,12 @@ class SPGlobal {
 
   String get id => prefs.getString("id") ?? "";
 
+  set loginType(String value) {
+    prefs.setString("loginType", value);
+  }
+
+  String get loginType => prefs.getString("loginType") ?? "";
+
   set isLogin(bool value) {
     prefs.setBool("isLogin", value);
   }

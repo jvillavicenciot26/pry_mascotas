@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pry_mascotas/models/user_model.dart';
-import 'package:pry_mascotas/services/local/sp_global.dart';
-import 'package:pry_mascotas/services/remote/firestore_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pry_mascotas/bloc/signup/signup_bloc.dart';
+import 'package:pry_mascotas/bloc/signup/signup_event.dart';
+import 'package:pry_mascotas/bloc/signup/signup_state.dart';
 import 'package:pry_mascotas/ui/pages/home_page.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/ui/widgets/common_widget.dart';
@@ -25,66 +25,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController apeMaternoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isLoading = false;
 
   final formKeyRegister = GlobalKey<FormState>();
-
-  registerUser() async {
-    try {
-      if (formKeyRegister.currentState!.validate()) {
-        isLoading = true;
-        setState(() {});
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-
-        if (userCredential.user != null) {
-          FirestoreService firestoreService = FirestoreService();
-
-          UserModel model = UserModel(
-            apellidoMaterno: apeMaternoController.text,
-            apellidoPaterno: apePaternoController.text,
-            email: emailController.text,
-            imagen: "",
-            nombre: nombresController.text,
-            telefono: "",
-            tipo: "final_user",
-          );
-
-          String id = await firestoreService.registerUser(model);
-          if (id.isNotEmpty) {
-            SPGlobal().isLogin = true;
-            SPGlobal().id = id;
-            isLoading = false;
-            setState(() {});
-            // ignore: use_build_context_synchronously
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => HomePage(),
-                ),
-                (route) => false);
-          }
-        }
-      }
-    } on FirebaseAuthException catch (e) {
-      //print("error:::: ${e.code}");
-      if (e.code == "weak-password") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          snackBarError(
-              "La contraseña es muy debil, debe tener como minimo 6 caracteres."),
-        );
-      } else if (e.code == "email-already-in-use") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          snackBarError("El correo electronico ya esta registrado"),
-        );
-      }
-      isLoading = false;
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +137,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                 CommonButtonWiget(
                                   label: "CREAR CUENTA",
                                   onPressed: () {
-                                    registerUser();
+                                    //registerUser();
+                                    if (formKeyRegister.currentState!
+                                        .validate()) {
+                                      BlocProvider.of<SignupBloc>(context).add(
+                                        SignupCreateAccountEvent(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                          materno: apeMaternoController.text,
+                                          paterno: apePaternoController.text,
+                                          nombres: nombresController.text,
+                                        ),
+                                      );
+                                    }
                                   },
                                   backColor: BrandColor.cGreenColor,
                                   textColor: BrandColor.cBlackColor,
@@ -226,12 +180,43 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
-          isLoading
-              ? Container(
-                  color: Colors.white70,
-                  child: loadingWidget,
-                )
-              : const SizedBox(),
+          BlocListener(
+            bloc: BlocProvider.of<SignupBloc>(context),
+            listener: (BuildContext context, SignupState state) {
+              if (state is SignupErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  snackBarError(state.errorMessage),
+                );
+              } else if (state is SignupSuccedState) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(),
+                    ),
+                    (route) => false);
+              }
+            },
+            child: BlocBuilder<SignupBloc, SignupState>(
+              builder: (BuildContext context, SignupState state) {
+                if (state is SignupInitState) {
+                  return const SizedBox();
+                } else if (state is SignupLoadingState) {
+                  return Container(
+                    color: BrandColor.cWhiteColor.withOpacity(0.70),
+                    child: loadingWidget,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ),
+          // isLoading
+          //     ? Container(
+          //         color: Colors.white70,
+          //         child: loadingWidget,
+          //       )
+          //     : const SizedBox(),
         ],
       ),
     );
