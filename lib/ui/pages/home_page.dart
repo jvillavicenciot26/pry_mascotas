@@ -159,17 +159,6 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         centerTitle: true,
-        // title: Padding(
-        //   padding: const EdgeInsets.all(16.0),
-        //   child: TextFieldCommonWidget(
-        //     hintText: "Buscar",
-        //     icon: const Icon(
-        //       Icons.search,
-        //       color: BrandColor.cGreyColor,
-        //     ),
-        //     type: InputType.text,
-        //   ),
-        // ),
         actions: [
           Builder(
             builder: (BuildContext context) {
@@ -188,7 +177,6 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          print(state);
           if (state is HomeInitState || state is HomeLoadingState) {
             return loadingWidget;
           } else if (state is HomeGetProfileState) {

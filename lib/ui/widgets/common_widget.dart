@@ -51,3 +51,21 @@ SnackBar snackBarError(String message) => SnackBar(
         ],
       ),
     );
+
+SnackBar snackBarSucced(String message) => SnackBar(
+      backgroundColor: BrandColor.cGreenColor,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(lCircularBorder),
+      ),
+      content: Row(
+        children: [
+          Expanded(
+            child: H5(
+              text: message,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );

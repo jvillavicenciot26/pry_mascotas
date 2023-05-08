@@ -168,10 +168,29 @@ class _ProfilePageState extends State<ProfilePage> {
                                   itemCount: state.petsModel!.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
-                                      leading: const CircleAvatar(
-                                        child: Icon(
-                                          Icons.pets,
-                                        ),
+                                      leading: CircleAvatar(
+                                        radius:
+                                            ResponsiveUI.pWidth(context, 0.06),
+                                        child: state.petsModel![index].imagen!
+                                                .isEmpty
+                                            ? const Icon(
+                                                Icons.pets,
+                                              )
+                                            : Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        state.petsModel![index]
+                                                            .imagen!,
+                                                      ),
+                                                      fit: BoxFit.fill),
+                                                ),
+                                              ),
+
+                                        // Image.network(
+                                        //     state.petsModel![index].imagen!,
+                                        //     fit: BoxFit.cover),
                                       ),
                                       title: H5(
                                         text: state.petsModel![index].nombre,
@@ -189,6 +208,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                           setState(() {
                                             selectedMenu = value;
                                           });
+                                          if (value == 0) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddMyPetPage(
+                                                  petModel:
+                                                      state.petsModel![index],
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         },
                                         itemBuilder: (context) => [
                                           PopupMenuItem(

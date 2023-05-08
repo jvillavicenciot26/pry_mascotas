@@ -1,17 +1,16 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mime_type/mime_type.dart';
 import 'package:pry_mascotas/bloc/add_pet/add_pet_bloc.dart';
 import 'package:pry_mascotas/bloc/add_pet/add_pet_event.dart';
 import 'package:pry_mascotas/bloc/add_pet/add_pet_state.dart';
-import 'package:pry_mascotas/bloc/home/home_bloc.dart';
-import 'package:pry_mascotas/bloc/home/home_state.dart';
 import 'package:pry_mascotas/models/pet_model.dart';
-import 'package:pry_mascotas/models/species_model.dart';
 import 'package:pry_mascotas/services/local/sp_global.dart';
+import 'package:pry_mascotas/services/remote/firestorage_service.dart';
+import 'package:pry_mascotas/services/remote/firestore_service.dart';
 import 'package:pry_mascotas/ui/general/colors.dart';
 import 'package:pry_mascotas/ui/widgets/common_text.dart';
 import 'package:pry_mascotas/ui/widgets/common_widget.dart';
@@ -21,7 +20,6 @@ import 'package:pry_mascotas/utils/constants.dart';
 import 'package:pry_mascotas/utils/responsive.dart';
 import 'package:pry_mascotas/utils/types.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddMyPetPage extends StatefulWidget {
   PetModel? petModel;
@@ -31,13 +29,14 @@ class AddMyPetPage extends StatefulWidget {
 }
 
 class _AddMyPetPageState extends State<AddMyPetPage> {
-  List<String> razas = [];
   String idespecie = "";
+  String raza = "";
   String idgenero = "Hembra";
-  String valueRaza = "";
-  TextEditingController nombreController = TextEditingController();
-  TextEditingController colorController = TextEditingController();
-  TextEditingController fechaController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _colorController = TextEditingController();
+  final TextEditingController _fechaController = TextEditingController();
+  FirestorageService firestorageService = FirestorageService();
+  FirestoreService firestoreService = FirestoreService();
   ImagePicker imagePicker = ImagePicker();
   XFile? image;
 
@@ -48,33 +47,68 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
     }
   }
 
-  Future<String> uploadImageStorage() async {
-    firebase_storage.FirebaseStorage storage =
-        firebase_storage.FirebaseStorage.instance;
-    firebase_storage.Reference referenceStorage =
-        storage.ref().child(SPGlobal().id).child("pets");
-
-    String name = DateTime.now().toString();
-    String temp = mime(image!.path) ?? "";
-    String extension = temp.split("/")[1];
-
-    firebase_storage.TaskSnapshot uploadTask = await referenceStorage
-        .child("$name.$extension")
-        .putFile(File(image!.path));
-
-    return await uploadTask.ref.getDownloadURL();
+  void bigImage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: ClipRRect(
+            borderRadius: BorderRadius.circular(lCircularBorder),
+            child: widget.petModel == null
+                ? Image(
+                    image: image != null
+                        ? FileImage(File(image!.path))
+                        : const AssetImage(AssetData.imageDefaultMascota)
+                            as ImageProvider,
+                    fit: BoxFit.fill,
+                    width: ResponsiveUI.pWidth(context, 0.25),
+                    height: ResponsiveUI.pHeight(context, 0.5),
+                  )
+                : Image(
+                    image: widget.petModel!.imagen!.isEmpty
+                        ? const AssetImage(AssetData.imageDefaultMascota)
+                        : image == null
+                            ? NetworkImage(widget.petModel!.imagen!)
+                            : FileImage(File(image!.path)) as ImageProvider,
+                    fit: BoxFit.fill,
+                    width: ResponsiveUI.pWidth(context, 0.25),
+                    height: ResponsiveUI.pHeight(context, 0.5),
+                  ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<AddPetBloc>(context).add(AddPetGetDataEvent());
-    });
+
+    if (widget.petModel != null) {
+      _nombreController.text = widget.petModel!.nombre;
+      _colorController.text = widget.petModel!.color;
+      _fechaController.text =
+          DateFormat('dd-MM-yyyy').format(widget.petModel!.fecnac.toDate());
+
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        BlocProvider.of<AddPetBloc>(context).add(AddPetGetDataEvent(
+          idespecie: widget.petModel!.especie,
+          idraza: widget.petModel!.raza,
+          idgenero: widget.petModel!.genero,
+        ));
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        BlocProvider.of<AddPetBloc>(context).add(AddPetGetDataEvent());
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.petModel != null) {
+      idgenero = widget.petModel!.genero;
+    }
     return Scaffold(
       backgroundColor: BrandColor.cWhiteColor,
       appBar: AppBar(
@@ -91,9 +125,50 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              if (widget.petModel == null ||
-                  widget.petModel!.imagen!.isEmpty) {}
-              String urlImage = await uploadImageStorage();
+              PetModel pet = PetModel(
+                color: _colorController.text,
+                especie: idespecie,
+                nombre: _nombreController.text,
+                raza: raza,
+                genero: idgenero,
+                fecnac: Timestamp.fromDate(
+                    DateFormat('dd-MM-yyyy').parse(_fechaController.text)),
+                usuario: SPGlobal().id,
+              );
+              if (widget.petModel == null) {
+                BlocProvider.of<AddPetBloc>(context)
+                    .add(AddPetCreateEvent(pet: pet, image: image));
+              } else {
+                pet.id = widget.petModel!.id;
+                pet.imagen = widget.petModel!.imagen;
+                BlocProvider.of<AddPetBloc>(context).add(AddPetUpdateEvent(
+                  pet: pet,
+                  image: image,
+                  urlImage: widget.petModel!.imagen,
+                ));
+              }
+              BlocListener(
+                bloc: BlocProvider.of<AddPetBloc>(context),
+                listener: (BuildContext context, AddPetState state) {
+                  if (state is AddPetLoadingState) {
+                    loadingWidget;
+                  } else if (state is AddPetSuccedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      snackBarSucced(state.message),
+                    );
+                    Navigator.pop(context);
+                  }
+                },
+                child: BlocBuilder<AddPetBloc, AddPetState>(
+                  builder: (BuildContext context, AddPetState state) {
+                    if (state is AddPetLoadingState) {
+                      return loadingWidget;
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              );
             },
             icon: const Icon(Icons.check),
           ),
@@ -111,17 +186,37 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(lCircularBorder),
-                          child: Image(
-                            image: image != null
-                                ? FileImage(File(image!.path))
-                                : const AssetImage(
-                                        AssetData.imageDefaultMascota)
-                                    as ImageProvider,
-                            fit: BoxFit.cover,
-                            width: ResponsiveUI.pWidth(context, 0.22),
-                            height: ResponsiveUI.pWidth(context, 0.22),
+                        InkWell(
+                          onTap: () {
+                            bigImage(context);
+                          },
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(lCircularBorder),
+                            child: widget.petModel == null
+                                ? Image(
+                                    image: image != null
+                                        ? FileImage(File(image!.path))
+                                        : const AssetImage(
+                                                AssetData.imageDefaultMascota)
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                    width: ResponsiveUI.pWidth(context, 0.22),
+                                    height: ResponsiveUI.pWidth(context, 0.22),
+                                  )
+                                : Image(
+                                    image: widget.petModel!.imagen!.isEmpty
+                                        ? const AssetImage(
+                                            AssetData.imageDefaultMascota)
+                                        : image == null
+                                            ? NetworkImage(
+                                                widget.petModel!.imagen!)
+                                            : FileImage(File(image!.path))
+                                                as ImageProvider,
+                                    fit: BoxFit.cover,
+                                    width: ResponsiveUI.pWidth(context, 0.22),
+                                    height: ResponsiveUI.pWidth(context, 0.22),
+                                  ),
                           ),
                         ),
                         Positioned(
@@ -146,7 +241,7 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                         children: [
                           TextFieldCommonWidget(
                             hintText: "Nombre",
-                            controller: nombreController,
+                            controller: _nombreController,
                             icon: Icon(
                               Icons.pets,
                               color: BrandColor.cBlueColor.withOpacity(0.5),
@@ -157,12 +252,11 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                           TextFieldCommonWidget(
                             hintText: "Fecha de nacimiento",
                             readOnly: true,
-                            controller: fechaController,
+                            controller: _fechaController,
                             icon: Icon(
                               Icons.calendar_month,
                               color: BrandColor.cBlueColor.withOpacity(0.5),
                             ),
-                            //type: InputType.text,
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
                                 context: context,
@@ -175,10 +269,10 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                               if (pickedDate != null) {
                                 String formattedDate =
                                     DateFormat('dd-MM-yyyy').format(pickedDate);
-                                fechaController.text = formattedDate;
+                                _fechaController.text = formattedDate;
                                 setState(() {});
                               } else {
-                                fechaController.text = "";
+                                _fechaController.text = "";
                               }
                             },
                           ),
@@ -187,14 +281,17 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                     ),
                   ],
                 ),
-                H5(text: "Especie"),
+                H5(
+                  text: "Especie",
+                  fontWeight: FontWeight.w500,
+                ),
                 BlocBuilder<AddPetBloc, AddPetState>(
                   builder: (context, state) {
                     if (state is AddPetInitState ||
                         state is AddPetLoadingState) {
                       return loadingWidget;
                     } else if (state is AddPetGetDataState) {
-                      idespecie = state.especiesRazas.first.idespecie ?? "";
+                      idespecie = state.idespecie!;
                       return Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -210,7 +307,44 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                         ),
                         child: DropdownButton(
                           underline: const SizedBox(),
-                          value: idespecie,
+                          value: state.idespecie!,
+                          items: state.especiesRazas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e.idespecie,
+                                  child: Text(e.nombre),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (String? value) {
+                            idespecie = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeEspecieEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeEspecieState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idespecie,
                           items: state.especiesRazas
                               .map(
                                 (e) => DropdownMenuItem(
@@ -221,31 +355,17 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                               .toList(),
                           onChanged: (value) {
                             idespecie = value!;
-                            print(idespecie);
-                            BlocProvider.of<AddPetBloc>(context).add(
-                              AddPetChangeEspecieEvent(
-                                especiesRazas: state.especiesRazas,
-                                idespecie: idespecie,
-                              ),
-                            );
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeEspecieEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
                           },
                         ),
                       );
-                    } else if (state is AddPetChangeEspecieState) {
-                      return const SizedBox();
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-                H5(text: "Raza"),
-                BlocBuilder<AddPetBloc, AddPetState>(
-                  builder: (context, state) {
-                    if (state is AddPetInitState ||
-                        state is AddPetLoadingState) {
-                      return loadingWidget;
-                    } else if (state is AddPetChangeEspecieState) {
-                      valueRaza = state.razas.first;
+                    } else if (state is AddPetChangeRazaState) {
                       return Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -261,7 +381,96 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                         ),
                         child: DropdownButton(
                           underline: const SizedBox(),
-                          value: valueRaza,
+                          value: state.idespecie,
+                          items: state.especiesRazas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e.idespecie,
+                                  child: Text(e.nombre),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            idespecie = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeEspecieEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeGenreState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idespecie,
+                          items: state.especiesRazas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e.idespecie,
+                                  child: Text(e.nombre),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            idespecie = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeEspecieEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+                H5(
+                  text: "Raza",
+                  fontWeight: FontWeight.w500,
+                ),
+                BlocBuilder<AddPetBloc, AddPetState>(
+                  builder: (context, state) {
+                    if (state is AddPetInitState ||
+                        state is AddPetLoadingState) {
+                      return loadingWidget;
+                    } else if (state is AddPetGetDataState) {
+                      raza = state.idraza;
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idraza,
                           items: state.razas
                               .map(
                                 (e) => DropdownMenuItem(
@@ -271,7 +480,134 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                               )
                               .toList(),
                           onChanged: (value) {
-                            valueRaza = value!;
+                            raza = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeRazaEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: value,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeEspecieState) {
+                      //return const SizedBox();
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idraza,
+                          items: state.razas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            raza = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeRazaEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: value,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeRazaState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idraza,
+                          items: state.razas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            raza = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeRazaEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: value,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeGenreState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idraza,
+                          items: state.razas
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            raza = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeRazaEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: value,
+                                    idgenero: state.idgenero,
+                                  ),
+                                );
                           },
                         ),
                       );
@@ -280,47 +616,194 @@ class _AddMyPetPageState extends State<AddMyPetPage> {
                     }
                   },
                 ),
-                H5(text: "Genero"),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: BrandColor.cWhiteColor,
-                    borderRadius: BorderRadius.circular(lCircularBorder),
-                    boxShadow: [
-                      BoxShadow(
-                        color: BrandColor.cBlackColor.withOpacity(0.05),
-                        blurRadius: 12.0,
-                        offset: const Offset(4, 4),
-                      ),
-                    ],
-                  ),
-                  child: DropdownButton(
-                    underline: const SizedBox(),
-                    value: idgenero,
-                    items: const [
-                      DropdownMenuItem(
-                        value: "Hembra",
-                        child: Text("Hembra"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Macho",
-                        child: Text("Macho"),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      idgenero = value!;
-                      setState(() {});
-                    },
-                  ),
+                H5(
+                  text: "Genero",
+                  fontWeight: FontWeight.w500,
+                ),
+                BlocBuilder<AddPetBloc, AddPetState>(
+                  builder: (context, state) {
+                    if (state is AddPetInitState ||
+                        state is AddPetLoadingState) {
+                      return loadingWidget;
+                    } else if (state is AddPetGetDataState) {
+                      idgenero = state.idgenero;
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: idgenero,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "Hembra",
+                              child: Text("Hembra"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Macho",
+                              child: Text("Macho"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            idgenero = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeGenreEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: state.idraza,
+                                    idgenero: value,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeEspecieState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: idgenero,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "Hembra",
+                              child: Text("Hembra"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Macho",
+                              child: Text("Macho"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            idgenero = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeGenreEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: state.idraza,
+                                    idgenero: value,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeRazaState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: idgenero,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "Hembra",
+                              child: Text("Hembra"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Macho",
+                              child: Text("Macho"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            idgenero = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeGenreEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: state.idraza,
+                                    idgenero: value,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else if (state is AddPetChangeGenreState) {
+                      return Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: BrandColor.cWhiteColor,
+                          borderRadius: BorderRadius.circular(lCircularBorder),
+                          boxShadow: [
+                            BoxShadow(
+                              color: BrandColor.cBlackColor.withOpacity(0.05),
+                              blurRadius: 12.0,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButton(
+                          underline: const SizedBox(),
+                          value: state.idgenero,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "Hembra",
+                              child: Text("Hembra"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Macho",
+                              child: Text("Macho"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            idgenero = value!;
+                            context.read<AddPetBloc>().add(
+                                  AddPetChangeGenreEvent(
+                                    especiesRazas: state.especiesRazas,
+                                    idespecie: idespecie,
+                                    razas: state.razas,
+                                    idraza: state.idraza,
+                                    idgenero: value,
+                                  ),
+                                );
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
                 ),
                 spacing10,
                 TextFieldCommonWidget(
+                  label: "Color",
                   hintText: "Color",
                   icon: Icon(
                     Icons.color_lens,
                     color: BrandColor.cBlueColor.withOpacity(0.5),
                   ),
-                  controller: colorController,
+                  controller: _colorController,
                 ),
               ],
             ),

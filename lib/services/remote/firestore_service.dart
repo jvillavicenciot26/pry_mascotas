@@ -26,6 +26,7 @@ class FirestoreService {
         FirebaseFirestore.instance.collection("usuarios");
 
     DocumentSnapshot doc = await userReference.doc(id).get();
+    //print(doc.data() as Map<String, dynamic>);
     if (doc.exists) {
       UserModel model = UserModel.fromJson(doc.data() as Map<String, dynamic>);
       model.id = doc.id;
@@ -43,31 +44,28 @@ class FirestoreService {
     List<QueryDocumentSnapshot> docs = collection.docs;
     List<PetModel> petsModel = [];
     for (QueryDocumentSnapshot item in docs) {
+      Map<String, dynamic> data = item.data() as Map<String, dynamic>;
       PetModel petModel =
           PetModel.fromJson(item.data() as Map<String, dynamic>);
       petModel.id = item.id;
-
-      List<String> especieRaza =
-          await getSpecieyRaza(petModel.especie, int.parse(petModel.raza));
-
-      petModel.especie = especieRaza[0];
-      petModel.raza = especieRaza[1];
-
       petsModel.add(petModel);
     }
     return petsModel;
   }
 
-  Future<List<String>> getSpecieyRaza(String idEspecie, int idRaza) async {
+  //Future<List<String>> getSpecieyRaza(String idEspecie, String idRaza) async {
+  Future<List<String>> getSpecieyRaza(String idEspecie) async {
     CollectionReference specieRazaReference =
         FirebaseFirestore.instance.collection("especies");
 
     DocumentSnapshot doc = await specieRazaReference.doc(idEspecie).get();
     List<String> data = [];
+
     if (doc.exists) {
       Map<String, dynamic> especie = doc.data() as Map<String, dynamic>;
+      //print(especie["razas"]);
       data.add(especie["nombre"]);
-      data.add(especie["razas"][idRaza]);
+      //data.add(especie["razas"][idRaza]);
     }
     return data;
   }
@@ -96,5 +94,20 @@ class FirestoreService {
     DocumentReference doc = await userReference.add(model.toJson());
     //print(doc.id);
     return doc.id;
+  }
+
+  registerPet(PetModel pet) async {
+    CollectionReference petReference =
+        FirebaseFirestore.instance.collection("mascota");
+    await petReference.add(pet.toJson());
+  }
+
+  updatePet(PetModel pet) async {
+    CollectionReference petReference =
+        FirebaseFirestore.instance.collection("mascota");
+    print(pet.imagen);
+    print(pet.fecnac.toDate().toString());
+    print(pet.toJson());
+    await petReference.doc(pet.id).update(pet.toJson());
   }
 }

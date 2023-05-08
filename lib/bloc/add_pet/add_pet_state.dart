@@ -12,20 +12,63 @@ class AddPetLoadingState extends AddPetState {}
 
 class AddPetGetDataState extends AddPetState {
   List<EspeciesRazasModel> especiesRazas;
-  AddPetGetDataState({required this.especiesRazas});
+  String? idespecie;
+  List<String> razas;
+  String idraza;
+  String idgenero;
+  AddPetGetDataState({
+    required this.especiesRazas,
+    this.idespecie,
+    required this.razas,
+    required this.idraza,
+    required this.idgenero,
+  });
 }
 
 class AddPetChangeEspecieState extends AddPetState {
   List<EspeciesRazasModel> especiesRazas;
-  List<String> razas;
   String idespecie;
-  AddPetChangeEspecieState(
-      {required this.especiesRazas,
-      required this.razas,
-      required this.idespecie});
+  List<String> razas;
+  String idraza;
+  String idgenero;
+  AddPetChangeEspecieState({
+    required this.especiesRazas,
+    required this.idespecie,
+    required this.razas,
+    required this.idraza,
+    required this.idgenero,
+  });
 }
 
-class AddPetChangeRazaState extends AddPetState {}
+class AddPetChangeRazaState extends AddPetState {
+  List<EspeciesRazasModel> especiesRazas;
+  String idespecie;
+  List<String> razas;
+  String idraza;
+  String idgenero;
+  AddPetChangeRazaState({
+    required this.especiesRazas,
+    required this.idespecie,
+    required this.razas,
+    required this.idraza,
+    required this.idgenero,
+  });
+}
+
+class AddPetChangeGenreState extends AddPetState {
+  List<EspeciesRazasModel> especiesRazas;
+  String idespecie;
+  List<String> razas;
+  String idraza;
+  String idgenero;
+  AddPetChangeGenreState({
+    required this.especiesRazas,
+    required this.idespecie,
+    required this.razas,
+    required this.idraza,
+    required this.idgenero,
+  });
+}
 
 class AddPetSuccedState extends AddPetState {
   String message;
